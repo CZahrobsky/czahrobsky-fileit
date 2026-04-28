@@ -48,3 +48,4 @@ builder.Services.AddSingleton(logConfig);
 builder.Logging.AddCommonLog(logConfig);
 
 builder.Build().Run();
+
