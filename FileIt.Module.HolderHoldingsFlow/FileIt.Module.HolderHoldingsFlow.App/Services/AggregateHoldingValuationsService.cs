@@ -2,14 +2,12 @@ using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 
 namespace FileIt.Module.HolderHoldingsFlow.App.Services;
 
-public class PresentValueIngestionService
+public class AggregateHoldingValuationsService
 {
-    public async Task LoadPresentValuesAsync(/* parameters */)
+    public async Task LoadAggregateHoldingValuationsAsync(/* parameters */)
     {
         // Load holdings data from your source
-        var pv = new List<PresentValue>();
-
+        var aggValuation = new List<HolderHoldingValuation>();
         // (Database, Blob Storage, Service Bus, etc.)
     }
-
 }

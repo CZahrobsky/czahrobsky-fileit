@@ -11,13 +11,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<HolderIngestionService>();
         services.AddScoped<HoldingIngestionService>();
         services.AddScoped<PresentValueIngestionService>();
-        services.AddScoped<HoldingValuationAggregator>();
+        services.AddScoped<ProcessAggregateHoldingValuationsHandler>();
 
         // Register Application layer handlers
         services.AddScoped<ProcessHoldersHandler>();
         services.AddScoped<ProcessHoldingsHandler>();
         services.AddScoped<ProcessPresentValuesHandler>();
-        services.AddScoped<AggregateHoldingValuationsHandler>();
+        services.AddScoped<AggregateHoldingValuationsService>();
 
         return services;
     }
