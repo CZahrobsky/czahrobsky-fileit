@@ -2,10 +2,9 @@ namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 
 public class PresentValue
 {
-    public string PresentValueId { get; set; } = null!;
-    public string Symbol { get; set; } = null!;
-    public string Cusip { get; set; } = null!;
+    public string CusipOrSymbol { get; set; } = null!;
     public decimal UnitPrice { get; set; }
-    public DateTime EffectiveDate { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public decimal DividendMultiple { get; set; }
+    public decimal SplitMultiple { get; set; }
+    public DateTime AsOfDate { get; set; }
 }
