@@ -1,0 +1,11 @@
+# Liquibase Properties for Staging
+
+# Database Connection
+driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+url=jdbc:sqlserver://staging-server:1433;databaseName=FileIt_Staging;encrypt=true;trustServerCertificate=true
+username=sa
+password=${DB_PASSWORD_STAGING}
+
+# Liquibase Configuration
+changeLogFile=./src/main/resources/db/changelog/db.changelog-master.sql
+logLevel=info
