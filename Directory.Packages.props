@@ -4,6 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Aspire.AppHost.Sdk" Version="13.2.2" />
     <PackageVersion Include="Aspire.Hosting.Azure.Functions" Version="13.2.4" />
     <PackageVersion Include="Aspire.Hosting.Azure.ServiceBus" Version="13.2.2" />
     <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="13.2.4" />
