@@ -1,5 +1,6 @@
 using System.Text;
 using FileIt.Domain.Interfaces;
+using FileIt.Infrastructure.DeadLetter.Ingestion;
 using FileIt.Infrastructure.Logging;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
@@ -60,7 +61,8 @@ public static class CommonLogExtensions
         temp.Append("\n\t\"SourceContext\":\"{SourceContext}\",");
         temp.Append("\n\t\"CorrelationId\":\"{CorrelationId}\",");
         temp.Append("\n\t\"InvocationId\":\"{InvocationId}\",");
-        temp.Append("\n\t\"EventId\": {EventId}");
+        temp.Append("\n\t\"EventId\":{EventId},");
+        temp.Append("\n\t\"EventName\":\"{EventName}\"");
         temp.Append("\n}}{NewLine}{Exception}");
 
         var loggerConfig = new LoggerConfiguration()
@@ -71,6 +73,7 @@ public static class CommonLogExtensions
             .WriteTo.DatabaseSink(featureConfig)
             .WriteTo.Console(outputTemplate: temp.ToString())
             .Enrich.FromLogContext()
+            .Enrich.With<FileIt.Infrastructure.Logging.EventNameEnricher>()
             .Enrich.WithEnvironmentName()
             .Enrich.WithMachineName()
             .Enrich.WithProperty("Application", featureConfig.Application)
@@ -79,9 +82,90 @@ public static class CommonLogExtensions
                 "InfrastructureVersion",
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version
             );
-        if (!string.IsNullOrWhiteSpace(featureConfig.LogFilePath))
+        // Rich rolling log file for dev/QA/business sharing (#43).
+        // One file per host (derived from Application name), rolling daily,
+        // 30-day retention, 100MB per-file cap.
+        //
+        // Log output folder resolution:
+        // 1. LOG_OUTPUT_DIR env var wins (production flexibility - points at Azure Files, mounted volume, etc.)
+        // 2. Otherwise, walk up from the current directory to find the solution root and drop logs/ next to it
+        //    (local dev - all 3 hosts converge on <repo_root>/logs/ so devs and QA find them in one place)
+        // 3. Otherwise, current directory as a last-resort fallback
+        var logFolder = Environment.GetEnvironmentVariable("LOG_OUTPUT_DIR");
+        if (string.IsNullOrWhiteSpace(logFolder))
         {
-            loggerConfig.WriteTo.File(featureConfig.LogFilePath);
+            var dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (dir != null && !dir.GetFiles("*.sln").Any())
+            {
+                dir = dir.Parent;
+            }
+            logFolder = dir != null
+                ? Path.Combine(dir.FullName, "logs")
+                : Path.Combine(Directory.GetCurrentDirectory(), "logs");
+        }
+        Directory.CreateDirectory(logFolder);
+
+        var hostName = (featureConfig.Application ?? "fileit")
+            .Replace("FileIt.Module.", string.Empty)
+            .Replace("FileIt.", string.Empty)
+            .ToLowerInvariant();
+
+        var sharedLogPath = Path.Combine(logFolder, $"{hostName}-.log");
+
+        var sharedOutputTemplate =
+            "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} | {Level:u3} | {Application,-40} | " +
+            "Correlation: {CorrelationId,-36} | Invocation: {InvocationId,-36} | " +
+            "Event {EventName,-40} | {SourceContext} | {Message:lj}{NewLine}{Exception}";
+
+        // Delete stale log files so the new template applies cleanly on the next run
+        try
+        {
+            foreach (var stale in Directory.EnumerateFiles(logFolder, $"{hostName}-*.log"))
+            {
+                File.Delete(stale);
+            }
+        }
+        catch { /* best effort, ignore if files are locked */ }
+
+        loggerConfig.WriteTo.File(
+            path: sharedLogPath,
+            outputTemplate: sharedOutputTemplate,
+            rollingInterval: Serilog.RollingInterval.Day,
+            retainedFileCountLimit: 30,
+            fileSizeLimitBytes: 100_000_000,
+            rollOnFileSizeLimit: true,
+            shared: false,
+            flushToDiskInterval: TimeSpan.FromSeconds(2)
+        );
+
+        // Ship logs to Aspire dashboard via OTLP when running under Aspire.
+        // OTEL_EXPORTER_OTLP_ENDPOINT is auto-injected by Aspire into each child process.
+        // If the variable is absent (standalone func run), this block is skipped and behavior is unchanged.
+        var otlpEndpoint = Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT");
+        if (!string.IsNullOrWhiteSpace(otlpEndpoint))
+        {
+            // Enable Serilog SelfLog to stderr so we can see sink errors in the Aspire console
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
+
+            // Aspire ships OTLP over https with a dev cert on localhost.
+            // Bypass cert validation on the underlying HttpClient for local dev.
+            var httpHandler = new System.Net.Http.HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    System.Net.Http.HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+
+            loggerConfig.WriteTo.OpenTelemetry(options =>
+            {
+                options.Endpoint = otlpEndpoint;
+                options.Protocol = Serilog.Sinks.OpenTelemetry.OtlpProtocol.Grpc;
+                options.HttpMessageHandler = httpHandler;
+                options.ResourceAttributes = new Dictionary<string, object>
+                {
+                    ["service.name"] = featureConfig.Application ?? "FileIt",
+                    ["service.version"] = featureConfig.ApplicationVersion ?? "1.0.0"
+                };
+            });
         }
 
 #if RELEASE

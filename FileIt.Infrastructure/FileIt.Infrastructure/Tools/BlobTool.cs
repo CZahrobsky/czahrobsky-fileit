@@ -17,9 +17,8 @@ public class BlobTool : IHandleFiles
         _blobServiceClient = blobServiceClient;
     }
 
-    public async Task MoveAsync(string filename, string source, string destination)
+    public async Task MoveAsync(string filename, string source, string destination, CancellationToken cancellationToken = default)
     {
-        // Placeholder for moving a blob
         if (string.IsNullOrWhiteSpace(filename))
         {
             throw new ArgumentException("Blob name must be provided", nameof(filename));
@@ -27,30 +26,30 @@ public class BlobTool : IHandleFiles
         try
         {
             _logger.LogInformation(
-                InfrastructureEvents.BlobToolMoveStart.Id,
+                InfrastructureEvents.BlobToolMoveStart,
                 "Moving Blob '{BlobName}' from {source} to {destination}",
                 filename,
                 source,
                 destination
             );
             var sourceContainerClient = _blobServiceClient.GetBlobContainerClient(source);
-            var sourceExists = await sourceContainerClient.ExistsAsync();
+            var sourceExists = await sourceContainerClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
             if (!sourceExists)
-                await sourceContainerClient.CreateIfNotExistsAsync();
+                await sourceContainerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
             var destinationContainerClient = _blobServiceClient.GetBlobContainerClient(destination);
-            var destExists = await sourceContainerClient.ExistsAsync();
+            var destExists = await destinationContainerClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
             if (!destExists)
-                await destinationContainerClient.CreateIfNotExistsAsync();
+                await destinationContainerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
             var sourceBlobClient = sourceContainerClient.GetBlobClient(filename);
             var destinationBlobClient = destinationContainerClient.GetBlobClient(filename);
 
-            var existsResponse = await sourceBlobClient.ExistsAsync();
+            var existsResponse = await sourceBlobClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
             if (!existsResponse.Value)
             {
                 _logger.LogWarning(
-                    InfrastructureEvents.BlobToolBlobNotFound.Id,
+                    InfrastructureEvents.BlobToolBlobNotFound,
                     "Blob '{BlobName}' not found in container '{SourceContainer}'",
                     filename,
                     source
@@ -58,11 +57,12 @@ public class BlobTool : IHandleFiles
                 return;
             }
 
-            await destinationBlobClient.StartCopyFromUriAsync(sourceBlobClient.Uri);
-            await sourceBlobClient.DeleteAsync();
+            var copyOperation = await destinationBlobClient.StartCopyFromUriAsync(sourceBlobClient.Uri, options: null, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await copyOperation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
+            await sourceBlobClient.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation(
-                InfrastructureEvents.BlobToolMoved.Id,
+                InfrastructureEvents.BlobToolMoved,
                 "Moved blob '{BlobName}' from '{SourceContainer}' to '{DestinationContainer}'",
                 filename,
                 source,
@@ -72,7 +72,7 @@ public class BlobTool : IHandleFiles
         catch (Azure.RequestFailedException ex)
         {
             _logger.LogError(
-                InfrastructureEvents.BlobToolMoveFailed.Id,
+                InfrastructureEvents.BlobToolMoveFailed,
                 ex,
                 "Azure Storage request failed while moving blob '{BlobName}'",
                 filename
@@ -82,7 +82,7 @@ public class BlobTool : IHandleFiles
         catch (Exception ex)
         {
             _logger.LogError(
-                InfrastructureEvents.BlobToolUnexpected.Id,
+                InfrastructureEvents.BlobToolUnexpected,
                 ex,
                 "Unexpected error while moving blob '{BlobName}'",
                 filename
@@ -91,16 +91,15 @@ public class BlobTool : IHandleFiles
         }
     }
 
-    public async Task GetFileAsync(string filename, string location)
+    public async Task GetFileAsync(string filename, string location, CancellationToken cancellationToken = default)
     {
-        // Placeholder for getting a blob
         if (string.IsNullOrWhiteSpace(filename))
         {
             throw new ArgumentException("Blob name must be provided", nameof(filename));
         }
 
         _logger.LogInformation(
-            InfrastructureEvents.BlobToolGetFile.Id,
+            InfrastructureEvents.BlobToolGetFile,
             "Getting '{FileName}' from {Location}",
             filename,
             location
@@ -110,24 +109,24 @@ public class BlobTool : IHandleFiles
             var containerClient = _blobServiceClient.GetBlobContainerClient(location);
             var blobClient = containerClient.GetBlobClient(filename);
 
-            var existsResponse = await blobClient.ExistsAsync();
+            var existsResponse = await blobClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
             if (!existsResponse.Value)
             {
                 _logger.LogWarning(
-                    InfrastructureEvents.BlobToolGetFileNotFound.Id,
+                    InfrastructureEvents.BlobToolGetFileNotFound,
                     "Blob '{BlobName}' not found in container '{Container}'",
                     filename,
                     location
                 );
                 return;
             }
-            var downloadResponse = await blobClient.DownloadAsync();
+            var downloadResponse = await blobClient.DownloadAsync(cancellationToken).ConfigureAwait(false);
             using var ms = new System.IO.MemoryStream();
-            await downloadResponse.Value.Content.CopyToAsync(ms);
+            await downloadResponse.Value.Content.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
             ms.Position = 0;
 
             _logger.LogInformation(
-                InfrastructureEvents.BlobToolGetFileDownloaded.Id,
+                InfrastructureEvents.BlobToolGetFileDownloaded,
                 "Downloaded blob '{BlobName}' from container '{Container}' ({Length} bytes)",
                 filename,
                 location,
@@ -137,7 +136,7 @@ public class BlobTool : IHandleFiles
         catch (Azure.RequestFailedException ex)
         {
             _logger.LogError(
-                InfrastructureEvents.BlobToolGetFileRequestFailed.Id,
+                InfrastructureEvents.BlobToolGetFileRequestFailed,
                 ex,
                 "Azure Storage request failed while retrieving blob '{BlobName}'",
                 filename
@@ -147,38 +146,99 @@ public class BlobTool : IHandleFiles
         catch (Exception ex)
         {
             _logger.LogError(
-                InfrastructureEvents.BlobToolGetFileUnexpected.Id,
+                InfrastructureEvents.BlobToolGetFileUnexpected,
                 ex,
                 "Unexpected error while retrieving blob '{BlobName}'",
                 filename
             );
             throw;
         }
-
-        await Task.CompletedTask;
     }
 
-    public async Task UploadAsync(Stream content, string filename, string location)
+    public async Task UploadAsync(Stream content, string filename, string location, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(content);
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentException("Blob name must be provided", nameof(filename));
+        }
+        if (string.IsNullOrWhiteSpace(location))
+        {
+            throw new ArgumentException("Location must be provided", nameof(location));
+        }
+
         _logger.LogInformation(
-            InfrastructureEvents.BlobToolUploadStart.Id,
-            "Uploading '{FileName}' from {Location}",
+            InfrastructureEvents.BlobToolUploadStart,
+            "Uploading '{FileName}' to {Location}",
             filename,
             location
         );
         try
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(location);
-            await containerClient.UploadBlobAsync(filename, content);
+            await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+            var blobClient = containerClient.GetBlobClient(filename);
+            await blobClient.UploadAsync(content, overwrite: true, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             _logger.LogError(
-                InfrastructureEvents.BlobToolUploadError.Id,
+                InfrastructureEvents.BlobToolUploadError,
                 ex,
                 "Error uploading {FileName}",
                 filename
             );
+            throw;
+        }
+    }
+
+    public async Task<Stream> DownloadAsync(string filename, string location, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentException("Blob name must be provided", nameof(filename));
+        }
+        if (string.IsNullOrWhiteSpace(location))
+        {
+            throw new ArgumentException("Location must be provided", nameof(location));
+        }
+
+        _logger.LogInformation(
+            InfrastructureEvents.BlobToolGetFile,
+            "Downloading '{FileName}' from {Location}",
+            filename,
+            location
+        );
+
+        try
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(location);
+            var blobClient = containerClient.GetBlobClient(filename);
+
+            var downloadResponse = await blobClient.DownloadAsync(cancellationToken).ConfigureAwait(false);
+            var ms = new MemoryStream();
+            try
+            {
+                await downloadResponse.Value.Content.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
+                ms.Position = 0;
+                return ms;
+            }
+            catch
+            {
+                await ms.DisposeAsync().ConfigureAwait(false);
+                throw;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                InfrastructureEvents.BlobToolGetFileUnexpected,
+                ex,
+                "Error downloading '{FileName}' from {Location}",
+                filename,
+                location
+            );
+            throw;
         }
     }
 }

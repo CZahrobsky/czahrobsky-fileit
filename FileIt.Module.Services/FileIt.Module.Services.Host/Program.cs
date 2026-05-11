@@ -1,3 +1,5 @@
+using FileIt.Domain.Interfaces;
+using FileIt.Infrastructure.HttpClients;
 using FileIt.Infrastructure.Extensions;
 using FileIt.Infrastructure.Logging;
 using FileIt.Infrastructure.Middleware;
@@ -29,6 +31,20 @@ if (config == null)
 
 builder.Services.AddSingleton(config);
 builder.Services.AddScoped<IApiAddCommand, ApiAddCommand>();
+// Complex API typed HttpClient (issue #10).
+// Base URL comes from AppHost via ConnectionStrings__ComplexApi env var.
+builder.Services.AddHttpClient<IComplexApiClient, ComplexApiClient>(client =>
+{
+    var baseUrl = builder.Configuration.GetConnectionString("ComplexApi")
+        ?? throw new ApplicationException(
+            "Missing ConnectionStrings__ComplexApi. AppHost must provide this.");
+    if (!baseUrl.EndsWith('/'))
+    {
+        baseUrl += "/";
+    }
+    client.BaseAddress = new Uri(baseUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
 
 var infrastructureConfig = builder.GetInfrastructureConfig();
 builder.Services.AddInfrastructure(infrastructureConfig);

@@ -6,7 +6,7 @@ using FileIt.Module.SimpleFlow.App.WaitOnApiUpload;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace FileIt.Module.SimpleFlow;
+namespace FileIt.Module.SimpleFlow.Host;
 
 public class SimpleSubscriber
 {
@@ -29,12 +29,15 @@ public class SimpleSubscriber
     /// A ServiceBusTrigger that processes the file ingested
     /// </summary>
     /// <param name="message">the ServiceBusReceivedMessage</param>
+    /// <param name="context">the FunctionContext providing the CancellationToken</param>
     /// <returns></returns>
     [Function(nameof(SimpleSubscriber))]
     public async Task Run(
-        [ServiceBusTrigger("api-add-topic", "api-add-simple-sub")] ServiceBusReceivedMessage message
+        [ServiceBusTrigger("api-add-topic", "api-add-simple-sub")] ServiceBusReceivedMessage message,
+        FunctionContext context
     )
     {
+        var cancellationToken = context.CancellationToken;
         string clientRequestId = message.CorrelationId ?? string.Empty;
 
         using (
@@ -48,7 +51,7 @@ public class SimpleSubscriber
         {
             //LogFunctionStart(nameof(SimpleSubscriber));
             _logger.LogDebug(
-                SimpleEvents.SimpleSubscriberReceive.Id,
+                SimpleEvents.SimpleSubscriberReceive,
                 "Receiving {@message}",
                 message
             );
@@ -57,13 +60,16 @@ public class SimpleSubscriber
             if (response == null)
             {
                 _logger.LogWarning(
-                    SimpleEvents.SimpleSubscriberReceiveFailed.Id,
+                    SimpleEvents.SimpleSubscriberReceiveFailed,
                     "Failed to deserialize ApiAddResponse"
                 );
                 throw new ApplicationException("Failed to deserialize ApiAddResponse!");
             }
-            _logger.LogInformation(SimpleEvents.SimpleSubscriber.Id, "Processing ApiAddResponse");
-            await _responseHandler.RunAsync(response);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            _logger.LogInformation(SimpleEvents.SimpleSubscriber, "Processing ApiAddResponse");
+            await _responseHandler.RunAsync(response, cancellationToken);
             //LogFunctionEnd(nameof(SimpleSubscriber));
         }
     }

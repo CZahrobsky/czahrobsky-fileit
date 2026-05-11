@@ -136,3 +136,131 @@ These components simulate the complete Azure environment so that you can develop
 - [Digest](./docs/nomenclature.md) its naming conventions.
 - [Extend](./docs/extensions.md) this system with a new Module.
 - [Deploy](./docs/deployment.md) your new Module to Azure and sync database changes.
+
+---
+
+# Xavier's contributions (Proximus)
+
+Branch: `feature/gl-account-dataflow`
+
+This fork extends Cesar's FileIt baseline into a full end-to-end demonstrable system. Of 32 mirrored issues, 23 are closed with code, tests, and documentation. The goal is a self-contained proof of concept that runs cold with a single `dotnet run` on a fresh clone and exercises real cloud Azure Service Bus and Azure SQL, not just emulators.
+
+Issue numbers below refer to issues in this fork (`Pr0x1mo/cmeraz-fileit`), which mirror the originals from `cesarmeraz/cmeraz-fileit` for solo ownership tracking.
+
+## Closed issues (23 of 32)
+
+### #1 - Investigate Aspire
+
+Full local orchestration via `FileIt.AppHost`. One `dotnet run` spins up Azurite, all four function hosts (Services, SimpleFlow, DataFlow, Complex) in the correct order with `WaitFor` dependencies, injects connection strings from user secrets, auto-creates all six blob containers, and exposes unified structured logs across all hosts in the Aspire dashboard. Uses the Aspire eventing API (`builder.Eventing.Subscribe<AfterResourcesCreatedEvent>`) rather than the initial `Task.Run` plus delay hack.
+
+### #3 - Establish a database deployment strategy
+
+DACPAC-based deployment via `scripts/deploy-database.ps1` wrapping sqlpackage, idempotent, deploy report against live FileIt on jmplabsv04 shows empty Operations after final publish. Re-running publish is a no-op. CHECK constraint authoring rule documented (must be OR chains, not IN-lists).
+
+### #4 - Unit test FileIt.Module.Services.App
+
+6/6 MSTest cases on ApiAddCommand: happy-path Complex bridge, null CorrelationId fallback, ComplexApiUnavailableException bubbles unhandled (broker retries), audit row and broadcaster skipped when Complex fails, OperationCanceledException propagation, CorrelationId passed through as Idempotency-Key.
+
+### #5 - Unit test FileIt.Module.SimpleFlow.App
+
+10/10 MSTest cases across `BasicApiAddHandler` and `WatchInbound`: move-and-stamp happy path, missing SimpleRequestLog throws, missing BlobName throws, no-op on missing record, OperationCanceledException, null CorrelationId fallback, full add-move-send pipeline, cancellation between AddAsync and MoveAsync, unique MessageId per call, ApiAddPayload.FileName matches blob name.
+
+### #9 - Improve the docker experience
+
+Cleanup of docker-compose, gitattributes for CRLF/LF consistency, pinned SQL Edge image to 1.0.7 to avoid ARM64 resolution on AMD64 VMs.
+
+### #10 - Simulate a more complex API
+
+Full Complex module: Domain interfaces, Infrastructure repos and HTTP client, `FileIt.Module.Complex.App` with chaos/latency/idempotency behaviors, `FileIt.Module.Complex.Host` exposing REST endpoints (POST/GET/DELETE/Export), Tests, Integration. Schema deployed via DACPAC (`ComplexDocument`, `ComplexIdempotency`). Services-host's `ApiAddCommand` now calls Complex over HTTP via `IComplexApiClient` instead of returning `"Imaginary"`. AppHost orchestrates `complex-host` alongside the other hosts. New `ApiAddTestProducer` HTTP trigger at `POST /api/test/api-add` publishes real Service Bus messages to the cloud `sbus-pe-2d99722c9843d8` namespace. Validated end-to-end with five consecutive matching `ComplexDocument` and `ApiLog` rows, including the exact correlationId from the test curl.
+
+### #11 - Architectural unit tests
+
+New `FileIt.Architecture.Test` project with 16 NetArchTest rules, 16/16 passing. Coverage: dependency direction (Domain has zero dependencies, stays POCO), module isolation (Apps reference Domain only, Hosts do not reference each other), naming (public types under declared namespace, .Commands/.Queries suffix convention, public interfaces start with I), runtime (no Azure SDK or EF in App layer, no async void outside event handlers). Caught and fixed a real layering violation: 5 SimpleFlow.Host classes lived in `FileIt.Module.SimpleFlow` instead of `FileIt.Module.SimpleFlow.Host`. Also cleaned dead `IAzureClientFactory<ServiceBusSender>` injection from `ApiAddCommand`. Closes both #11 and #19 (duplicate).
+
+### #12 - Determine response to dead letters
+
+Initial design phase, fed into the #22 implementation.
+
+### #13 - Load a CSV or JSON into a table, transform, and export to file
+
+DataFlow module end-to-end. `GLAccount.csv` dropped in `dataflow-source` is picked up by `WatchInbound`, logged to `DataFlowRequestLog` with a correlation ID, moved to `dataflow-working`, message placed on the `dataflow-transform` service bus queue. `DataFlowSubscriber` picks up, runs `TransformGlAccounts` (groups by COMPANYCODE plus GLACCOUNTGROUP, counts rows, flags profit/loss vs balance sheet), writes `summary_GLAccount.csv` to `dataflow-final`, updates the RequestLog row with rows-ingested, rows-transformed, status=Complete. 24 groups produced from ~20k row test file.
+
+### #15 - Add Cancellation Tokens
+
+Every async method across all four modules accepts a `CancellationToken` parameter wired through from the function invocation. Function host triggers, command handlers, repos, blob operations, service bus operations.
+
+### #17 - Migrate from .NET 8 to 10
+
+Solution targets net10.0 in all csproj files.
+
+### #19 - Test the Correlation ID
+
+Closed as duplicate of #11 (architectural verification handled there).
+
+### #20 - Migrate IBroadcastResponses from Domain to Common
+
+Solution structure follows the App / Host / Test convention with proper interface placement.
+
+### #21 - Refine the project naming convention
+
+Project structure follows `FileIt.Module.Name.Host` / `App` / `Test` taxonomy.
+
+### #22 - Move hardcoded paths in scripts to environment variables
+
+Scripts use environment variables and forward slashes per the convention.
+
+### #22 (mirror of original #35) - Dead-letter strategy end-to-end
+
+Production-grade dead-letter pipeline. `ExceptionHandlingMiddleware` was swallowing non-HTTP exceptions and breaking retries, fixed to rethrow. New `dbo.DeadLetterRecord` table (24 columns, 6 indexes), `DeadLetterClassifier`, `DeadLetterRecord` entity and repo with DbContext mapping, EventId 70 added for `UnhandledException`. Every publish now stamps `X-FileIt-EnqueuedTimeUtc` as a service bus app property. HTTP replay endpoint at `POST /api/deadletter/{id:long}/replay`. `FailureCategory` enum lives in Domain layer.
+
+### #23 - Rename Database project and folder
+
+Folder is named `FileIt.Database` in this fork.
+
+### #24 - New module generation
+
+`dotnet new` template at `templates/FileIt.Module/` plus `scripts/new-fileit-module.ps1` wrapper. PascalCase validation, EventId auto-allocation from 4000+, HTTP port auto-allocation from 7063+, automatic .sln registration. Verified end-to-end against scaffolded DemoModule: scaffold creates 4 projects, registers in `FileIt.All.sln`, `dotnet build` succeeds. Remove undoes everything cleanly. This is why adding the Complex module in #10 went smoothly: the generator scaffolded all four projects.
+
+### #26 - CommonLog queries and review
+
+`EventName` column added (nvarchar(100) NULL with filtered index), Properties fix in `DatabaseSink`, 8 reusable queries in `docs/queries/commonlog/`, schema review docs.
+
+### #28 - Log file review
+
+Rich shareable log files per host for dev/QA/UAT environments.
+
+### #29 - Seek no-code filtering on blob containers
+
+Determined that no-code blob filtering is not viable. Filtering handled in C# instead.
+
+### #30 - Prune extra project referenced packages
+
+Package references pruned across the solution.
+
+### #31 - Remove references to MSTest
+
+(All test projects standardized; some Test projects retain MSTest with `Assert.ThrowsAsync<T>` for the newer MSTest 4.x API.)
+
+### #32 - Include EventId Name in logs
+
+EventId Name implemented in commit 2eacab6, surfaced in CommonLog `EventName` column for human-readable filtering.
+
+## What's open
+
+- **#6 Unit test FileIt.Infrastructure.** ~10 classes to cover (ApiLogRepo, SimpleRequestLogRepo, DataFlowRequestLogRepo, DeadLetterRecordRepo, BlobTool, BusTool, PublishTool, DeadLetterClassifier, DeadLetterIngestionService, DeadLetterReplayService).
+- **#14 Message data standards.** Doc-only; the patterns we already use (ApiRequest contract with CorrelationId/MessageId/ReplyTo/Subject, idempotency-via-correlation) need a written spec.
+- **#16 Fix FileIt.Infrastructure.Integration tests.** Currently broken on `DbConnectionString missing`; config naming or test-host wiring issue.
+
+## Cloud-blocked, waiting on Finn for lab-35 provisioning
+
+#2 (deployment scripts), #7 (UI prototype), #18 (cloud readiness review), #25 (App Insights queries and dashboard), #27 (testability readiness review).
+
+## Architecture and operational notes
+
+The system runs against the real cloud Service Bus namespace `sbus-pe-2d99722c9843d8` in lab-35, not just a local emulator. Function apps in lab-34 (fa-fileit34-services, fa-fileit34-simple, fa-fileit34-complex) consume from those queues. Azure SQL stays in lab-35 (`jmplabsv04 / FileIt`).
+
+The cloud cutover validated end-to-end: a curl to `POST /api/test/api-add` publishes a real Service Bus message to lab-35, services-host triggers, calls Complex over HTTP, Complex inserts a row in `dbo.ComplexDocument`, ApiLog gets stamped with `Complex:<guid>`. Five consecutive matching rows in the database including the exact correlationId from the test curl.
+
+## Why a separate branch
+
+If the full team lands their pieces by the June deadline we merge forward. If not, this branch stands alone as a working demo.

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -15,9 +15,10 @@
 
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
     <PackageReference Include="Microsoft.Extensions.Azure" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Api" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
@@ -41,10 +42,6 @@
 
   <Target Name="Package" AfterTargets="Publish">
     <MakeDir Directories="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/" />
-    <ZipDirectory
-      Overwrite="true"
-      SourceDirectory="$(PublishDir)"
-      DestinationFile="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/$(ProjectName).zip"
-    />
+    <ZipDirectory Overwrite="true" SourceDirectory="$(PublishDir)" DestinationFile="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/$(ProjectName).zip" />
   </Target>
 </Project>

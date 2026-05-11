@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# LiteSpeed
+*.lscache
+
 # Azurite files
 __blobstorage__
 __queuestorage__
@@ -14,12 +17,11 @@ __azurite_db_blob__.json
 __azurite_db_table__.json
 AzuriteConfig
 
-# Test results
-[Ts]est[Rr]esult*/
-
-# Serilog log files
-# log.txt
+# Serilog log files and runtime log output folder
+log.txt
 serilog.txt
+*.log
+logs/
 
 # User-specific files
 *.rsuser
@@ -28,7 +30,6 @@ serilog.txt
 *.userosscache
 *.sln.docstates
 *.env
-*.lscache
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -217,7 +218,6 @@ publish/
 !scripts/publish/
 
 # Publish Web Output
-*.[Pp]ublish.xml
 *.azurePubxml
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
@@ -438,3 +438,9 @@ FodyWeavers.xsd
 *.msm
 *.msp
 .vscode/settings.json
+
+# Demo artifact for #22 dead-letter pipeline verification
+GLAccount-POISONED*.csv
+
+# DACPAC deploy report (diagnostic, not source)
+db-deploy-report.xml

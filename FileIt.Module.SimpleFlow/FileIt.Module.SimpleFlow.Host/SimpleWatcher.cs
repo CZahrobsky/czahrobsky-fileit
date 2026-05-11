@@ -14,7 +14,7 @@ using Microsoft.Azure.Functions.Worker.Extensions.EventGrid;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
-namespace FileIt.Module.SimpleFlow;
+namespace FileIt.Module.SimpleFlow.Host;
 
 public class SimpleWatcher
 {
@@ -35,13 +35,16 @@ public class SimpleWatcher
     /// </summary>
     /// <param name="blobClient">the BlobClient</param>
     /// <param name="blobName">the file name</param>
+    /// <param name="context">the FunctionContext providing the CancellationToken</param>
     /// <returns></returns>
     [Function("SimpleWatcherLocal")]
     public async Task RunLocal(
         [BlobTrigger("simple-source/{blobName}")] BlobClient blobClient,
-        string blobName
+        string blobName,
+        FunctionContext context
     )
     {
+        var cancellationToken = context.CancellationToken;
         blobClient = blobClient ?? throw new ArgumentNullException(nameof(blobClient));
 
         // use the blobClient to get the x-ms-client-request-id property from the original request header
@@ -54,19 +57,23 @@ public class SimpleWatcher
         )
         {
             _logger.LogInformation(
-                SimpleEvents.SimpleWatcher.Id,
+                SimpleEvents.SimpleWatcher,
                 "Received blob trigger for blob: {BlobName}",
                 blobName
             );
 
-            await _watcher.RunAsync(blobName, clientRequestId);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _watcher.RunAsync(blobName, clientRequestId, cancellationToken);
         }
     }
 #endif
 
     [Function(nameof(SimpleWatcher))]
-    public async Task Run([EventGridTrigger] EventGridEvent eventGridEvent)
+    public async Task Run([EventGridTrigger] EventGridEvent eventGridEvent, FunctionContext context)
     {
+        var cancellationToken = context.CancellationToken;
+
         _logger.LogInformation("Received EventGridEvent: {@EventGridEvent}", eventGridEvent);
         var blobName = (eventGridEvent.Subject ?? string.Empty).Split('/').Last();
 
@@ -80,12 +87,14 @@ public class SimpleWatcher
         )
         {
             _logger.LogInformation(
-                SimpleEvents.SimpleWatcher.Id,
+                SimpleEvents.SimpleWatcher,
                 "Received blob trigger for blob: {BlobName}",
                 blobName
             );
 
-            await _watcher.RunAsync(blobName, clientRequestId);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _watcher.RunAsync(blobName, clientRequestId, cancellationToken);
         }
     }
 }

@@ -5,6 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "SqlPackage: Local",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "publish-db-local",
+            "command": "echo publish-db-local completed"
+        },
+        {
+            "name": "SqlPackage: Azure",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "publish-db-azure",
+            "command": "echo publish-db-azure completed"
+        },
+        {
+            "name": "Start AppHost",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/FileIt.AppHost/FileIt.AppHost.csproj",
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        },
+        {
             "name": "Start Services",
             "type": "coreclr",
             "request": "attach",
@@ -18,7 +42,6 @@
             "preLaunchTask": "start simple",
             "processId": "${command:azureFunctions.pickProcess}"
         },
-
         {
             "type": "bashdb",
             "request": "launch",
@@ -29,4 +52,3 @@
         }
     ]
 }
-

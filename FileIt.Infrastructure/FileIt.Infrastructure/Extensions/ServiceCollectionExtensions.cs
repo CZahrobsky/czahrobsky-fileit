@@ -2,8 +2,11 @@
 using Azure.Identity;
 using Azure.Messaging.ServiceBus;
 using FileIt.Domain.Interfaces;
+using FileIt.Infrastructure.Classification;
 using FileIt.Infrastructure.Data;
 using FileIt.Infrastructure.Tools;
+using FileIt.Infrastructure.DeadLetter.Ingestion;
+using FileIt.Infrastructure.DeadLetter.Replay;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
@@ -58,14 +61,33 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IHandleFiles, BlobTool>();
         services.AddScoped<IApiLogRepo, ApiLogRepo>();
         services.AddScoped<ISimpleRequestLogRepo, SimpleRequestLogRepo>();
+        services.AddScoped<IDataFlowRequestLogRepo, DataFlowRequestLogRepo>();
+        services.AddScoped<IDeadLetterRecordRepo, DeadLetterRecordRepo>();
+        // Complex module (issue #10)
+        services.AddScoped<IComplexDocumentRepo, FileIt.Infrastructure.Data.ComplexDocumentRepo>();
+        services.AddScoped<IComplexIdempotencyRepo, FileIt.Infrastructure.Data.ComplexIdempotencyRepo>();
+
+        // Dead-letter classifier. Singleton because the default implementation is pure
+        // and stateless; any future stateful classifier should revisit this lifetime.
+        services.AddSingleton<IDeadLetterClassifier, DeadLetterClassifier>();
+
+        // Dead-letter ingestion service. Scoped so each function invocation gets a
+        // fresh service whose ILogger is bound to that invocation's scope. The
+        // service itself is stateless; the lifetime is dictated by the logger and
+        // by the desire to mirror the repo's per-call DbContext discipline.
+        services.AddScoped<IDeadLetterIngestionService, DeadLetterIngestionService>();
+
+        // Dead-letter replay service. Scoped to mirror the ingestion service's
+        // lifetime contract; the service composes the repo and the named-sender
+        // factory and produces an outcome record per replay attempt.
+        services.AddScoped<IDeadLetterReplayService, DeadLetterReplayService>();
+
         services.AddDbContextFactory<CommonDbContext>(options =>
             options.UseSqlServer(config.DbConnectionString)
         );
 
         services.AddAzureClients(clientBuilder =>
         {
-            // Set a credential for all clients to use by default
-
             var clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
 
             if (string.IsNullOrEmpty(clientId))
@@ -100,8 +122,8 @@ public static class ServiceCollectionExtensions
                 clientBuilder.AddServiceBusClientWithNamespace(namespaceName);
                 clientBuilder.AddServiceBusAdministrationClientWithNamespace(namespaceName);
 
-                DefaultAzureCredential credential = new DefaultAzureCredential(
-                    new DefaultAzureCredentialOptions { ManagedIdentityClientId = clientId }
+                Azure.Identity.DefaultAzureCredential credential = new Azure.Identity.DefaultAzureCredential(
+                    new Azure.Identity.DefaultAzureCredentialOptions { ManagedIdentityClientId = clientId }
                 );
                 clientBuilder.UseCredential(credential);
             }
@@ -112,6 +134,7 @@ public static class ServiceCollectionExtensions
                         provider.GetRequiredService<ServiceBusClient>().CreateSender("api-add")
                 )
                 .WithName("api-add");
+
             clientBuilder
                 .AddClient<ServiceBusSender, ServiceBusClientOptions>(
                     (_, _, provider) =>
@@ -120,6 +143,15 @@ public static class ServiceCollectionExtensions
                             .CreateSender("api-add-topic")
                 )
                 .WithName("api-add-topic");
+
+            clientBuilder
+                .AddClient<ServiceBusSender, ServiceBusClientOptions>(
+                    (_, _, provider) =>
+                        provider
+                            .GetRequiredService<ServiceBusClient>()
+                            .CreateSender("dataflow-transform")
+                )
+                .WithName("dataflow-transform");
         });
 
         services.AddSingleton<ILoggerProvider>(new SerilogLoggerProvider(Log.Logger));
