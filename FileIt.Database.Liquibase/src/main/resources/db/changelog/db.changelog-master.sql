@@ -47,3 +47,5 @@ CREATE TABLE IF NOT EXISTS hhf_presentvalue
     as_of_date        TIMESTAMP         NOT NULL DEFAULT CURRENT_DATE::TIMESTAMP
 );
 --rollback DROP TABLE IF EXISTS hhf_presentvalue CASCADE;
+
+ INSERT INTO hhf_presentvalue ( cusip_or_symbol, unit_price, dividend_multiple, split_multiple, cumulative_splits, as_of_date ) VALUES ( 'NVDA', 950.2500, 1.000000000000, 1.00000000, 1.0, '2026-05-09' );
