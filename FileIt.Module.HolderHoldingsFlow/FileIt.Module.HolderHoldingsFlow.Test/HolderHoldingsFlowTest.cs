@@ -4,6 +4,7 @@ using FileIt.Infrastructure.Logging;
 using FileIt.Infrastructure.Middleware;
 using FileIt.Module.HolderHoldingsFlow.App.Services;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
+using FileIt.Module.HolderHoldingsFlow.Test;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,9 @@ public class HolderHoldingsFlowTest
     [TestMethod]
     public void TestHolders()
     {
-
+        HolderIngestionService holderIngest = new HolderIngestionService();
+        HolderIngestionService.Source = new TestSource();
+        var holders = holderIngest.LoadHoldersAsync().GetAwaiter().GetResult();
 
     }
 

@@ -7,6 +7,7 @@
     <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DisableRestoreOnBuild>true</DisableRestoreOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".vscode\tasks.json" />
@@ -22,6 +23,9 @@
     <Build Remove="fileit.sql" />
     <Build Remove="Scripts\**\*.sql" />
     <None Include="Scripts\**\*.sql" />
+    <Build Include="Tables\HHF_Holders.sql" />
+    <Build Include="Tables\HHF_Holdings.sql" />
+    <Build Include="Tables\HHF_PresentValue.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

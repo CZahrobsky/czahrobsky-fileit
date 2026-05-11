@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileIt.Module.SimpleFlow.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileIt.Module.SimpleFlow.Test", "FileIt.Module.SimpleFlow\FileIt.Module.SimpleFlow.Test\FileIt.Module.SimpleFlow.Test.csproj", "{23E969E8-67A4-5D3B-33D1-61E454A928C5}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FileIt.Database", "FileIt.Database\FileIt.Database.sqlproj", "{430BB322-A989-4F38-8C3A-EAEFCAF75448}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -406,6 +408,24 @@ Global
 		{23E969E8-67A4-5D3B-33D1-61E454A928C5}.Release|x64.Build.0 = Release|Any CPU
 		{23E969E8-67A4-5D3B-33D1-61E454A928C5}.Release|x86.ActiveCfg = Release|Any CPU
 		{23E969E8-67A4-5D3B-33D1-61E454A928C5}.Release|x86.Build.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x64.Build.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x86.Build.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x64.ActiveCfg = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x64.Build.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x64.Deploy.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x86.ActiveCfg = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x86.Build.0 = Release|Any CPU
+		{430BB322-A989-4F38-8C3A-EAEFCAF75448}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

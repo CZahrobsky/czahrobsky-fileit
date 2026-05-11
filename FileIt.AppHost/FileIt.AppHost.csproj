@@ -14,6 +14,7 @@
     <PackageReference Include="Azure.Storage.Blobs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileIt.Module.HolderHoldingsFlow\FileIt.Module.HolderHoldingsFlow.Host\FileIt.Module.HolderHoldingsFlow.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.Services\FileIt.Module.Services.Host\FileIt.Module.Services.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.SimpleFlow\FileIt.Module.SimpleFlow.Host\FileIt.Module.SimpleFlow.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.DataFlow\FileIt.Module.DataFlow.Host\FileIt.Module.DataFlow.Host.csproj" />

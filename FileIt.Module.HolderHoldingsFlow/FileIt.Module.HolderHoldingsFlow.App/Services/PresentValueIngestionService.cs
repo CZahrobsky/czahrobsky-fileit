@@ -2,14 +2,30 @@ using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 
 namespace FileIt.Module.HolderHoldingsFlow.App.Services;
 
-public class PresentValueIngestionService
+public class PresentValueIngestionService : BaseHolderHoldingsFlow
 {
-    public async Task LoadPresentValuesAsync(/* parameters */)
+    public async Task<List<PresentValue>> LoadPresentValuesAsync(List<string> cusipOrSymbolList)
     {
-        // Load holdings data from your source
-        var pv = new List<PresentValue>();
-
-        // (Database, Blob Storage, Service Bus, etc.)
+        // Load present values from your source / API
+        var presentValues = new List<PresentValue>();
+        try
+        {
+            // (Database, Blob Storage, Service Bus, etc.)
+            if (Source != null)
+            {
+                var asOfDate = DateTime.Today;
+                var pvList = await BaseHolderHoldingsFlow.Source.GetPresentValuesAsync(asOfDate, cusipOrSymbolList);
+                presentValues.AddRange(pvList);
+            }
+        }
+        catch (Exception ex)
+        {
+            presentValues.Add(new PresentValue
+            {
+                CusipOrSymbol = $"Error loading present values: {ex.Message}"
+            });
+        }
+        return presentValues;
     }
 
 }

@@ -6,5 +6,7 @@ public class PresentValue
     public decimal UnitPrice { get; set; }
     public decimal DividendMultiple { get; set; }
     public decimal SplitMultiple { get; set; }
+    public decimal CumulativeSplits { get; set; }
+    public decimal? RiskScalar { get; set; }
     public DateTime AsOfDate { get; set; }
 }

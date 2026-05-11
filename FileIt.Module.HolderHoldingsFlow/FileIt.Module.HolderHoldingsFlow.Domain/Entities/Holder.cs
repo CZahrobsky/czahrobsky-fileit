@@ -10,5 +10,6 @@ public class Holder
     public string State { get; set; } = null!;
     public string Zip { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
+    public DateTime? AccountClosed { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

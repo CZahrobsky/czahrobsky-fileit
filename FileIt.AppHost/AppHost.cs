@@ -58,6 +58,16 @@ var dataflow = builder
     .WaitFor(services)
     .WaitFor(blobs);
 
+var holderholdingsflow = builder
+    .AddAzureFunctionsProject<Projects.FileIt_Module_HolderHoldingsFlow_Host>("holderholdingsflow-host")
+    .WithReference(blobs)
+    .WithEnvironment("FileItDbConnection", azureSql)
+    .WithEnvironment("FileItServiceBus", serviceBus)
+    .WithEnvironment("ConnectionStrings__ServiceBus", serviceBus)
+    .WaitFor(services)
+    .WaitFor(blobs);
+
+
 // --- Ensure blob containers exist once Aspire has created the resources ---
 // Uses Aspire's eventing API (the modern replacement for IDistributedApplicationLifecycleHook).
 // Fires after all resources are created, so no timing hack is needed.
@@ -78,6 +88,9 @@ builder.Eventing.Subscribe<AfterResourcesCreatedEvent>(
             "simple-source",
             "simple-working",
             "simple-final",
+            "holderholdingsflow-source",
+            "holderholdingsflow-working",
+            "holderholdingsflow-final"
         };
 
         var serviceClient = new BlobServiceClient(azuriteConnectionString);

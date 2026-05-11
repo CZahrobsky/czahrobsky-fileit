@@ -12,7 +12,8 @@ public class ProcessPresentValuesHandler
     public async Task HandleAsync(/* trigger input */)
     {
         // Orchestrate the flow
-        await _ingestionService.LoadPresentValuesAsync();
+        var list = new List<string>(); // This would come from the trigger input in a real implementation
+        await _ingestionService.LoadPresentValuesAsync(list);
     }
 }
 
