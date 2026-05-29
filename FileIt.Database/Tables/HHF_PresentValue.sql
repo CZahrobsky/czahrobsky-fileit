@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HHF_PresentValue]
 (
-	[Id]                  INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Id]                  INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     [CusipOrSymbol]       VARCHAR(50)       NOT NULL, 
     [UnitPrice]           MONEY             NOT NULL, 
     [DividendMultiple]    DECIMAL(38, 32)   NOT NULL, 

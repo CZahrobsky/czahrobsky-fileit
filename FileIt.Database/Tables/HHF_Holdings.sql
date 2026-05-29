@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[HHF_Holdings]
 (
-	[Id]            INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[HolderId]      VARCHAR(30)       NOT NULL,
+    [Id]            INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [HolderId]      VARCHAR(30)       NOT NULL,
     [CusipOrSymbol] VARCHAR(50)       NOT NULL, 
     [Name]          VARCHAR(200)      NULL, 
     [Quantity]      DECIMAL(38, 32)   NOT NULL, 

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HHF_Holders]
 (
-	[HolderId]      VARCHAR(30) NOT NULL PRIMARY KEY,
+    [HolderId]      VARCHAR(30) NOT NULL PRIMARY KEY,
     [CustomerName]  NVARCHAR(200) NOT NULL, 
     [AccountNumber] VARCHAR(50) NOT NULL, 
     [Address]       VARCHAR(200) NULL, 

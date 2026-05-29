@@ -22,7 +22,7 @@ var azureSql = builder.AddConnectionString("azureSql");
 var serviceBus = builder.AddConnectionString("serviceBus");
 
 var complex = builder
-    .AddAzureFunctionsProject<Projects.FileIt_Module_Complex_Host>("complex-host")
+    .AddProject<Projects.FileIt_Module_Complex_Host>("complex-host")
     .WithReference(blobs)
     .WithEnvironment("FileItDbConnection", azureSql)
     .WithEnvironment("FileItServiceBus", serviceBus)
@@ -31,7 +31,7 @@ var complex = builder
 
 // --- Func Apps with full wiring ---
 var services = builder
-    .AddAzureFunctionsProject<Projects.FileIt_Module_Services_Host>("services-host")
+    .AddProject<Projects.FileIt_Module_Services_Host>("services-host")
     .WithReference(blobs)
     .WithEnvironment("FileItDbConnection", azureSql)
     .WithEnvironment("FileItServiceBus", serviceBus)
@@ -41,7 +41,7 @@ var services = builder
     .WaitFor(blobs);
 
 var simpleflow = builder
-    .AddAzureFunctionsProject<Projects.FileIt_Module_SimpleFlow_Host>("simpleflow-host")
+    .AddProject<Projects.FileIt_Module_SimpleFlow_Host>("simpleflow-host")
     .WithReference(blobs)
     .WithEnvironment("FileItDbConnection", azureSql)
     .WithEnvironment("FileItServiceBus", serviceBus)
@@ -49,8 +49,7 @@ var simpleflow = builder
     .WaitFor(services)
     .WaitFor(blobs);
 
-var dataflow = builder
-    .AddAzureFunctionsProject<Projects.FileIt_Module_DataFlow_Host>("dataflow-host")
+var dataflow = builder.AddProject<Projects.FileIt_Module_DataFlow_Host>("dataflow-host")
     .WithReference(blobs)
     .WithEnvironment("FileItDbConnection", azureSql)
     .WithEnvironment("FileItServiceBus", serviceBus)
@@ -59,7 +58,7 @@ var dataflow = builder
     .WaitFor(blobs);
 
 var holderholdingsflow = builder
-    .AddAzureFunctionsProject<Projects.FileIt_Module_HolderHoldingsFlow_Host>("holderholdingsflow-host")
+    .AddProject<Projects.FileIt_Module_HolderHoldingsFlow_Host>("holderholdingsflow-host")
     .WithReference(blobs)
     .WithEnvironment("FileItDbConnection", azureSql)
     .WithEnvironment("FileItServiceBus", serviceBus)
@@ -74,7 +73,10 @@ var holderholdingsflow = builder
 builder.Eventing.Subscribe<AfterResourcesCreatedEvent>(
     async (@event, cancellationToken) =>
     {
-        const string azuriteConnectionString =
+        // Well-known Azurite development connection string.
+        // This is the standard local emulator key and is safe to commit to source control.
+        // See: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite
+        const string AzuriteConnectionString =
             "DefaultEndpointsProtocol=http;"
             + "AccountName=devstoreaccount1;"
             + "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"
@@ -93,7 +95,8 @@ builder.Eventing.Subscribe<AfterResourcesCreatedEvent>(
             "holderholdingsflow-final"
         };
 
-        var serviceClient = new BlobServiceClient(azuriteConnectionString);
+        var serviceClient = new BlobServiceClient(AzuriteConnectionString);
+        var failedContainers = new List<string>();
 
         foreach (var containerName in containers)
         {
@@ -104,21 +107,34 @@ builder.Eventing.Subscribe<AfterResourcesCreatedEvent>(
                 {
                     await serviceClient
                         .GetBlobContainerClient(containerName)
-                        .CreateIfNotExistsAsync(cancellationToken: cancellationToken);
+                        .CreateIfNotExistsAsync(cancellationToken: cancellationToken)
+                        .ConfigureAwait(false);
                     Console.WriteLine($"[container-init] ensured: {containerName}");
                     break;
                 }
                 catch when (attempt < 10)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken)
+                        .ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(
                         $"[container-init] FAILED for {containerName} after {attempt} attempts: {ex.Message}"
                     );
+                    failedContainers.Add(containerName);
                 }
             }
+        }
+
+        // If any containers failed to initialize, throw to prevent the application from starting
+        // in an inconsistent state. This is better than silent failure.
+        if (failedContainers.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Failed to initialize {failedContainers.Count} blob container(s): {string.Join(", ", failedContainers)}. "
+                    + "Ensure Azurite is running and accessible."
+            );
         }
     }
 );
