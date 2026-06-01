@@ -1,0 +1,139 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETStandard,Version=v2.1": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETStandard,Version=v2.1": []
+  },
+  "packageFolders": {
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Source\\Hackathon\\FileIt\\cz-develop\\FileIt.Database\\FileIt.Database.sqlproj",
+      "projectName": "FileIt.Database",
+      "projectPath": "D:\\Source\\Hackathon\\FileIt\\cz-develop\\FileIt.Database\\FileIt.Database.sqlproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\Source\\Hackathon\\FileIt\\cz-develop\\FileIt.Database\\obj\\",
+      "projectStyle": "PackageReference",
+      "centralPackageVersionsManagementEnabled": true,
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net472",
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "projectReferences": {}
+        },
+      },
+      "warningProperties": {
+        "noWarn": [
+          "NU5128"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.200"
+    },
+    "frameworks": {
+      "net472": {
+        "targetAlias": "net472",
+        "centralPackageVersions": {
+          "Aspire.Hosting.Azure.Functions": "13.2.4",
+          "Aspire.Hosting.Azure.ServiceBus": "13.2.2",
+          "Aspire.Hosting.Azure.Storage": "13.2.4",
+          "Aspire.Hosting.SqlServer": "13.2.2",
+          "Azure.Identity": "1.21.0",
+          "Azure.Messaging.ServiceBus": "7.20.1",
+          "Azure.Storage.Blobs": "12.27.0",
+          "coverlet.collector": "6.0.0",
+          "Microsoft.ApplicationInsights": "3.1.0",
+          "Microsoft.ApplicationInsights.WorkerService": "3.1.0",
+          "Microsoft.Azure.Functions.Worker": "2.51.0",
+          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "2.50.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.EventGrid": "3.6.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore": "2.1.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.ServiceBus": "5.24.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": "6.8.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.Timer": "4.3.1",
+          "Microsoft.Azure.Functions.Worker.Sdk": "2.0.7",
+          "Microsoft.Azure.WebJobs": "3.0.45",
+          "Microsoft.Data.SqlClient": "7.0.0",
+          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.2",
+          "Microsoft.EntityFrameworkCore": "10.0.5",
+          "Microsoft.EntityFrameworkCore.InMemory": "10.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.5",
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.5",
+          "Microsoft.Extensions.Azure": "1.14.0",
+          "Microsoft.Extensions.Caching.Memory": "10.0.5",
+          "Microsoft.Extensions.Configuration": "10.0.5",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.5",
+          "Microsoft.Extensions.Configuration.Json": "10.0.5",
+          "Microsoft.Extensions.DependencyInjection": "10.0.5",
+          "Microsoft.Extensions.Hosting": "10.0.5",
+          "Microsoft.Extensions.Hosting.Abstractions": "10.0.5",
+          "Microsoft.Extensions.Logging": "10.0.5",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.5",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.17.0",
+          "Microsoft.NET.Test.Sdk": "17.11.0",
+          "Moq": "4.20.72",
+          "MSTest.TestAdapter": "4.1.0",
+          "MSTest.TestFramework": "4.1.0",
+          "NetArchTest.Rules": "1.3.2",
+          "Newtonsoft.Json": "13.0.3",
+          "OpenTelemetry.Api": "1.15.3",
+          "Serilog": "4.3.1",
+          "Serilog.Enrichers.Environment": "3.0.1",
+          "Serilog.Extensions.Logging": "9.0.0",
+          "Serilog.Formatting.Compact": "3.0.0",
+          "Serilog.Settings.Configuration": "9.0.0",
+          "Serilog.Sinks.ApplicationInsights": "5.0.0",
+          "Serilog.Sinks.Console": "6.1.1",
+          "Serilog.Sinks.File": "7.0.0",
+          "Serilog.Sinks.MSSqlServer": "5.8.0",
+          "Serilog.Sinks.OpenTelemetry": "4.2.0",
+          "Swashbuckle.AspNetCore": "6.8.1",
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.8.1",
+          "System.Configuration.ConfigurationManager": "10.0.5",
+          "System.IdentityModel.Tokens.Jwt": "8.17.0",
+          "TngTech.ArchUnitNET": "0.13.3",
+          "TUnit": "1.41.0",
+          "TUnit.Mocks": "1.34.5-beta",
+          "TUnit.Mocks.Logging": "1.34.5-beta"
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,115 @@
+// .vscode/tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "dotnet build FileIt.All.sln",
+            "problemMatcher": "$msCompile",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "publish-db-local",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/scripts/publish/publish-database-local.sh"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "publish-db-azure",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/scripts/publish/publish-database-azure.sh"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "start aspire",
+            "type": "shell",
+            "command": "dotnet run",
+            "isBackground": true,
+            "dependsOn": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/FileIt.AppHost"
+            }
+        },
+        {
+            "label": "start services",
+            "type": "shell",
+            "command": "func start",
+            "isBackground": true,
+            "problemMatcher": "$func-watch",
+            "dependsOn": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/FileIt.Module.Services/FileIt.Module.Services.Host"
+            }
+        },
+        {
+            "label": "start simple",
+            "type": "shell",
+            "command": "func start",
+            "isBackground": true,
+            "problemMatcher": "$func-watch",
+            "dependsOn": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/FileIt.Module.SimpleFlow/FileIt.Module.SimpleFlow.Host"
+            }
+        },
+        {
+            "label": "validate telemetry packages",
+            "type": "shell",
+            "command": "./scripts/validate/telemetry-package-guard.sh",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}
