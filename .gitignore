@@ -17,8 +17,11 @@ __azurite_db_blob__.json
 __azurite_db_table__.json
 AzuriteConfig
 
-# Serilog log files and runtime log output folder
-log.txt
+# Test results
+[Tt]est[Rr]esult*/
+
+# Serilog log files
+# log.txt
 serilog.txt
 *.log
 logs/
@@ -218,6 +221,7 @@ publish/
 !scripts/publish/
 
 # Publish Web Output
+*.[Pp]ublish.xml
 *.azurePubxml
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
@@ -438,6 +442,7 @@ FodyWeavers.xsd
 *.msm
 *.msp
 .vscode/settings.json
+scripts/principals/get_mis_rbacs.sh
 
 # Demo artifact for #22 dead-letter pipeline verification
 GLAccount-POISONED*.csv

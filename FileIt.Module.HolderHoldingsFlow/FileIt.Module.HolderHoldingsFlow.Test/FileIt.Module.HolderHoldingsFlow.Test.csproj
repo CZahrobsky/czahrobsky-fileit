@@ -11,14 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\FileIt.zip" />
     <None Remove="Resources\Holders2000.json" />
     <None Remove="Resources\Holdings57881.json" />
+    <None Remove="Resources\PresentValues-20260601.zip" />
     <None Remove="Resources\PresentValues782077.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\FileIt.zip" />
     <EmbeddedResource Include="Resources\Holders2000.json" />
     <EmbeddedResource Include="Resources\Holdings57881.json" />
+    <EmbeddedResource Include="Resources\PresentValues-20260601.zip" />
   </ItemGroup>
 
   <ItemGroup>
