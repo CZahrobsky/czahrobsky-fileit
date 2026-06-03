@@ -2,6 +2,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 
 public class Holding
 {
+    public long Id { get; set; }
     public string HolderId { get; set; } = null!;
     public string CusipOrSymbol { get; set; } = null!;
     public string Name { get; set; } = null!;

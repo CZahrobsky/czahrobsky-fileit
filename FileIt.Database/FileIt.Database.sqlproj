@@ -26,6 +26,7 @@
     <Build Include="Tables\HHF_Holders.sql" />
     <Build Include="Tables\HHF_Holdings.sql" />
     <Build Include="Tables\HHF_PresentValue.sql" />
+    <Build Include="Tables\HHF_Transactions.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

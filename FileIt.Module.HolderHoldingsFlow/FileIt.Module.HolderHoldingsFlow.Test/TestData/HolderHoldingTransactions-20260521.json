@@ -1,0 +1,1794 @@
+[
+  {
+    "HolderId": "992-0018063",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 8924.762116,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0018063",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "BAC",
+    "Name": "Bank of America Corporation",
+    "Quantity": -173.330008,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0110788",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 27547.611355,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0110788",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "MRK",
+    "Name": "Merck & Co. Inc.",
+    "Quantity": -237.725331,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0208731",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 54179.24126,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0208731",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "JNJ",
+    "Name": "Johnson & Johnson",
+    "Quantity": -233.803311,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0281037",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "NKE",
+    "Name": "NIKE Inc. Class B",
+    "Quantity": 1121.062176,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0281037",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -49763.95,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0281037",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 58215.47,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0281037",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "META",
+    "Name": "Meta Platforms Inc.",
+    "Quantity": -95.846865,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0401480",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "TLT",
+    "Name": "iShares 20+ Year Treasury Bond ETF",
+    "Quantity": 31.399905,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0401480",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -2644.5,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0401480",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 3020.3,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0401480",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "HD",
+    "Name": "The Home Depot Inc.",
+    "Quantity": -9.625529,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0537291",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "IVV",
+    "Name": "iShares Core S&P 500 ETF",
+    "Quantity": 4.320164,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0537291",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -3223.62,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0537291",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 4104.52,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0537291",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "HON",
+    "Name": "Honeywell International Inc.",
+    "Quantity": -18.340127,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0624816",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 6138.38,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0725935",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "CVX",
+    "Name": "Chevron Corporation",
+    "Quantity": 81.531595,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0725935",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 27080.42,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0725935",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -15573.35,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0829078",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "BA",
+    "Name": "The Boeing Company",
+    "Quantity": 67.25477,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0829078",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 22842.97,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0829078",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -14769.82,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0919093",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "UNH",
+    "Name": "UnitedHealth Group Incorporated",
+    "Quantity": 27.468913,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0919093",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 14646.87,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-0919093",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -10506.31,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-1043764",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 390110.025172,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-1043764",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "SPY",
+    "Name": "SPDR S&P 500 ETF Trust",
+    "Quantity": -525.245079,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3585638",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 71050.270026,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3585638",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "LMT",
+    "Name": "Lockheed Martin Corporation",
+    "Quantity": -135.905947,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3705261",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 24230.137317,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3705261",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "BAC",
+    "Name": "Bank of America Corporation",
+    "Quantity": -470.579478,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3796869",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "UPS",
+    "Name": "United Parcel Service Inc. Class B",
+    "Quantity": 746.068193,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3796869",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -73301.2,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3796869",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 82963.17,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3796869",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "HD",
+    "Name": "The Home Depot Inc.",
+    "Quantity": -264.39918,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3884254",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XLK",
+    "Name": "Technology Select Sector SPDR Fund",
+    "Quantity": 358.179675,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3884254",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -63970.89,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3884254",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 74223.13,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3884254",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "FDX",
+    "Name": "FedEx Corporation",
+    "Quantity": -236.847063,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3981960",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XLK",
+    "Name": "Technology Select Sector SPDR Fund",
+    "Quantity": 136.176484,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3981960",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -24321.12,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3981960",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 30183.58,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-3981960",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "KO",
+    "Name": "The Coca-Cola Company",
+    "Quantity": -371.856376,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4098677",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 35907.05,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4181728",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "JNJ",
+    "Name": "Johnson & Johnson",
+    "Quantity": 100.830622,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4181728",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 32883.76,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4181728",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -23365.48,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4271604",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "GE",
+    "Name": "GE Aerospace",
+    "Quantity": 92.069062,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4271604",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 48372.42,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4271604",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -27782.76,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4366994",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "AMD",
+    "Name": "Advanced Micro Devices Inc.",
+    "Quantity": 38.439467,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4366994",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 23251.67,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4366994",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -17282.0,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4470992",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 47931.006971,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4470992",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "PG",
+    "Name": "Procter & Gamble Company",
+    "Quantity": -334.246911,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4583178",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 40635.542458,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4583178",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "QQQ",
+    "Name": "Invesco QQQ Trust Series 1",
+    "Quantity": -56.871902,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4690171",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 10386.051821,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4690171",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "AMZN",
+    "Name": "Amazon.com Inc.",
+    "Quantity": -38.687521,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4802769",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "NKE",
+    "Name": "NIKE Inc. Class B",
+    "Quantity": 210.46114,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4802769",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -9342.37,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4802769",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 11218.28,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4802769",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "IWM",
+    "Name": "iShares Russell 2000 ETF",
+    "Quantity": -39.712135,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4911957",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "VWO",
+    "Name": "Vanguard FTSE Emerging Markets ETF",
+    "Quantity": 78.170017,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4911957",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -4588.58,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4911957",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 5563.58,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-4911957",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "KO",
+    "Name": "The Coca-Cola Company",
+    "Quantity": -68.542336,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5019580",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "META",
+    "Name": "Meta Platforms Inc.",
+    "Quantity": 2.610573,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5019580",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -1585.61,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5019580",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 1735.64,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5019580",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "BAC",
+    "Name": "Bank of America Corporation",
+    "Quantity": -33.708268,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5124769",
+    "TransactionType": "Withdrawal",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -5432.53,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5237961",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "MSFT",
+    "Name": "Microsoft Corporation",
+    "Quantity": 16.159608,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5237961",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 7371.31,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5237961",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -6772.33,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5322392",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "COP",
+    "Name": "ConocoPhillips",
+    "Quantity": 199.843136,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5322392",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 41873.94,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5322392",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -24091.09,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5416787",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "JNJ",
+    "Name": "Johnson & Johnson",
+    "Quantity": 41.706167,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5416787",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 13849.38,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5416787",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -9664.57,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5507187",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 18302.967604,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5507187",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "XLK",
+    "Name": "Technology Select Sector SPDR Fund",
+    "Quantity": -102.480222,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5586469",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 18136.913814,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5586469",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "NFLX",
+    "Name": "Netflix Inc.",
+    "Quantity": -203.100939,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5660510",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 78182.53366,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5660510",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VTI",
+    "Name": "Vanguard Total Stock Market ETF",
+    "Quantity": -214.145919,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5734972",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "HYG",
+    "Name": "iShares iBoxx High Yield Corporate Bond ETF",
+    "Quantity": 577.120526,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5734972",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -46111.93,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5734972",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 51175.22,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5734972",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "NVDA",
+    "Name": "NVIDIA Corporation",
+    "Quantity": -233.133883,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5812924",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "GOOGL",
+    "Name": "Alphabet Inc. Class A",
+    "Quantity": 108.849714,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5812924",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -42196.68,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5812924",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 44663.93,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5812924",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "PG",
+    "Name": "Procter & Gamble Company",
+    "Quantity": -311.46394,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5900563",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "VOO",
+    "Name": "Vanguard S&P 500 ETF",
+    "Quantity": 6.811127,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5900563",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -4650.91,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5900563",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 5793.4,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-5900563",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VWO",
+    "Name": "Vanguard FTSE Emerging Markets ETF",
+    "Quantity": -98.695111,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6030938",
+    "TransactionType": "Withdrawal",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -2853.39,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6172390",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "IWM",
+    "Name": "iShares Russell 2000 ETF",
+    "Quantity": 53.993982,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6172390",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 24655.02,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6172390",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -15252.76,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6282326",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "EFA",
+    "Name": "iShares MSCI EAFE ETF",
+    "Quantity": 143.261062,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6282326",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 23243.97,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6282326",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -14926.37,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6363089",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "INTC",
+    "Name": "Intel Corporation",
+    "Quantity": 124.888354,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6363089",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 22172.25,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6363089",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -14799.27,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6457214",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 44115.457048,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6457214",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "IWM",
+    "Name": "iShares Russell 2000 ETF",
+    "Quantity": -156.166438,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6535422",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 9057.872787,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6535422",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "QCOM",
+    "Name": "Qualcomm Incorporated",
+    "Quantity": -42.443526,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6586642",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 119105.714174,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6586642",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "GOOGL",
+    "Name": "Alphabet Inc. Class A",
+    "Quantity": -307.242723,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6635933",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "PG",
+    "Name": "Procter & Gamble Company",
+    "Quantity": 33.206764,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6635933",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -4761.85,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6635933",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 5588.56,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6635933",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "IBM",
+    "Name": "International Business Machines Corporation",
+    "Quantity": -22.091804,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6738919",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XOM",
+    "Name": "Exxon Mobil Corporation",
+    "Quantity": 49.838753,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6738919",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -7739.46,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6738919",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 9387.83,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6738919",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VWO",
+    "Name": "Vanguard FTSE Emerging Markets ETF",
+    "Quantity": -159.929039,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6829802",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "PEP",
+    "Name": "PepsiCo Inc.",
+    "Quantity": 174.533557,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6829802",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -25979.32,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6829802",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 28876.64,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6829802",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "LQD",
+    "Name": "iShares iBoxx Investment Grade Corporate Bond ETF",
+    "Quantity": -266.956108,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6915260",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 37520.81,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6999396",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "V",
+    "Name": "Visa Inc. Class A",
+    "Quantity": 107.068948,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6999396",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 57113.56,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-6999396",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -35452.67,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7091091",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "CVX",
+    "Name": "Chevron Corporation",
+    "Quantity": 36.669389,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7091091",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 11447.67,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7091091",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -7004.22,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7184903",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XLE",
+    "Name": "Energy Select Sector SPDR Fund",
+    "Quantity": 177.750888,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7184903",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 14549.22,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7184903",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -10510.41,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7272088",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 178820.150977,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7272088",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "QQQ",
+    "Name": "Invesco QQQ Trust Series 1",
+    "Quantity": -250.269627,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7367035",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 30151.656909,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7367035",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VEA",
+    "Name": "Vanguard FTSE Developed Markets ETF",
+    "Quantity": -426.533554,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7464417",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 17258.016047,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7464417",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "SHY",
+    "Name": "iShares 1-3 Year Treasury Bond ETF",
+    "Quantity": -210.104895,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7539328",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "INTC",
+    "Name": "Intel Corporation",
+    "Quantity": 314.270464,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7539328",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -37241.05,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7539328",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 38024.89,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7539328",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "LMT",
+    "Name": "Lockheed Martin Corporation",
+    "Quantity": -72.734541,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7656024",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "BA",
+    "Name": "The Boeing Company",
+    "Quantity": 138.924366,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7656024",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -30509.18,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7656024",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 32228.18,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7656024",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "QCOM",
+    "Name": "Qualcomm Incorporated",
+    "Quantity": -151.015315,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7719544",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "CRM",
+    "Name": "Salesforce Inc.",
+    "Quantity": 650.955306,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7719544",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -114769.93,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7719544",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 141362.91,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7719544",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "MSFT",
+    "Name": "Microsoft Corporation",
+    "Quantity": -337.309187,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7809296",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 13025.96,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7895773",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XLE",
+    "Name": "Energy Select Sector SPDR Fund",
+    "Quantity": 444.209877,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7895773",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 44189.77,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7895773",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -26266.13,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7985765",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "UPS",
+    "Name": "United Parcel Service Inc. Class B",
+    "Quantity": 416.146158,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7985765",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 61376.93,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-7985765",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -40886.36,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8083512",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "PFE",
+    "Name": "Pfizer Inc.",
+    "Quantity": 360.24894,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8083512",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 13861.03,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8083512",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -9348.46,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8181167",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 5720.792469,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8181167",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "IBM",
+    "Name": "International Business Machines Corporation",
+    "Quantity": -22.61451,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8260914",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 38081.202922,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8260914",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "V",
+    "Name": "Visa Inc. Class A",
+    "Quantity": -115.007257,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8356928",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 16241.415434,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8356928",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VEA",
+    "Name": "Vanguard FTSE Developed Markets ETF",
+    "Quantity": -229.755488,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8438785",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "JNJ",
+    "Name": "Johnson & Johnson",
+    "Quantity": 511.19609,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8438785",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -118459.47,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8438785",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 156187.56,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8438785",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "SPY",
+    "Name": "SPDR S&P 500 ETF Trust",
+    "Quantity": -210.291302,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8514519",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "JNJ",
+    "Name": "Johnson & Johnson",
+    "Quantity": 859.319423,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8514519",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -199130.09,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8514519",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 220352.29,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8514519",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "CAT",
+    "Name": "Caterpillar Inc.",
+    "Quantity": -254.463059,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8608055",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "AGG",
+    "Name": "iShares Core U.S. Aggregate Bond ETF",
+    "Quantity": 706.589282,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8608055",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -69485.99,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8608055",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 77252.58,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8608055",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "DE",
+    "Name": "Deere & Company",
+    "Quantity": -145.389254,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8704373",
+    "TransactionType": "Withdrawal",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -11011.48,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8811987",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "GLD",
+    "Name": "SPDR Gold Shares",
+    "Quantity": 38.619751,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8811987",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 27481.5,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8811987",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -16104.05,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8930509",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "XLK",
+    "Name": "Technology Select Sector SPDR Fund",
+    "Quantity": 68.91187,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8930509",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 12955.83,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8930509",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -12307.66,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8996750",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "LOW",
+    "Name": "Lowe's Companies Inc.",
+    "Quantity": 94.534336,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8996750",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 34264.23,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-8996750",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -20552.71,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9093740",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 82015.302116,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9093740",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "GLD",
+    "Name": "SPDR Gold Shares",
+    "Quantity": -196.684098,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9204562",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 19958.21287,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9204562",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "T",
+    "Name": "AT&T Inc.",
+    "Quantity": -787.616925,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9303757",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 2816.812837,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9303757",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "VNQ",
+    "Name": "Vanguard Real Estate ETF",
+    "Quantity": -29.138438,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9410801",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "TSLA",
+    "Name": "Tesla Inc.",
+    "Quantity": 77.170588,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9410801",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -32245.73,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9410801",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 42331.63,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9410801",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "IBM",
+    "Name": "International Business Machines Corporation",
+    "Quantity": -167.338529,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9486310",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "VZ",
+    "Name": "Verizon Communications Inc.",
+    "Quantity": 756.56184,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9486310",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -36519.24,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9486310",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 46837.75,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9486310",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "GE",
+    "Name": "GE Aerospace",
+    "Quantity": -155.215249,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9625223",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "V",
+    "Name": "Visa Inc. Class A",
+    "Quantity": 9.435099,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9625223",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -3124.15,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9625223",
+    "TransactionType": "Sale",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 3830.25,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9625223",
+    "TransactionType": "Sell",
+    "CusipOrSymbol": "FDX",
+    "Name": "FedEx Corporation",
+    "Quantity": -12.222384,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9697916",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 39481.64,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9756371",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "MCD",
+    "Name": "McDonald's Corporation",
+    "Quantity": 130.825252,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9756371",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 54375.71,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9756371",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -37177.92,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9841173",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "T",
+    "Name": "AT&T Inc.",
+    "Quantity": 971.910024,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9841173",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 42175.31,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9841173",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -24628.2,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9922658",
+    "TransactionType": "Buy",
+    "CusipOrSymbol": "LOW",
+    "Name": "Lowe's Companies Inc.",
+    "Quantity": 180.022998,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9922658",
+    "TransactionType": "Deposit",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": 56424.16,
+    "AsOfDate": "2026-05-21T00:00:00"
+  },
+  {
+    "HolderId": "992-9922658",
+    "TransactionType": "Purchase",
+    "CusipOrSymbol": "CASH",
+    "Name": "Cash Sweep Account",
+    "Quantity": -39138.8,
+    "AsOfDate": "2026-05-21T00:00:00"
+  }
+]

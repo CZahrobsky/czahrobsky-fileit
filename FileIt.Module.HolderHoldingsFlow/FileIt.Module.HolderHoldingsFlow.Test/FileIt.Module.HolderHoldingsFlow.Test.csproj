@@ -40,4 +40,8 @@
     <ProjectReference Include="..\FileIt.Module.HolderHoldingsFlow.Domain\FileIt.Module.HolderHoldingsFlow.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestData\" />
+  </ItemGroup>
+
 </Project>
