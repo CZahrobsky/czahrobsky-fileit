@@ -36,7 +36,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
     public DeadLetterIngestionService(
         IDeadLetterClassifier classifier,
         IDeadLetterRecordRepo repo,
-        ILogger<DeadLetterIngestionService> logger)
+        ILogger<DeadLetterIngestionService> logger
+    )
     {
         _classifier = classifier ?? throw new ArgumentNullException(nameof(classifier));
         _repo = repo ?? throw new ArgumentNullException(nameof(repo));
@@ -45,7 +46,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
 
     public async Task<DeadLetterRecord> IngestAsync(
         DeadLetterIngestionEnvelope envelope,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         ArgumentNullException.ThrowIfNull(envelope);
         cancellationToken.ThrowIfCancellationRequested();
@@ -57,7 +59,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
             envelope.MessageId,
             envelope.SourceEntityName,
             envelope.DeliveryCount,
-            envelope.DeadLetterReason ?? "<null>");
+            envelope.DeadLetterReason ?? "<null>"
+        );
 
         var classification = ClassifyOrThrow(envelope);
 
@@ -65,7 +68,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
 
         try
         {
-            var persisted = await _repo.InsertAsync(record, cancellationToken)
+            var persisted = await _repo
+                .InsertAsync(record, cancellationToken)
                 .ConfigureAwait(false);
 
             _logger.LogInformation(
@@ -77,7 +81,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                 envelope.MessageId,
                 envelope.SourceEntityName,
                 classification.Category,
-                false);
+                false
+            );
 
             return persisted;
         }
@@ -102,7 +107,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                     "Idempotency conflict on insert for message {MessageId} from "
                         + "{SourceEntityName}, but no matching row found on lookup.",
                     envelope.MessageId,
-                    envelope.SourceEntityName);
+                    envelope.SourceEntityName
+                );
                 throw;
             }
 
@@ -112,7 +118,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                     + "message {MessageId} from {SourceEntityName} (no new row inserted).",
                 existing.DeadLetterRecordId,
                 envelope.MessageId,
-                envelope.SourceEntityName);
+                envelope.SourceEntityName
+            );
 
             return existing;
         }
@@ -130,7 +137,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                 "Failed to persist DeadLetterRecord for message {MessageId} from "
                     + "{SourceEntityName}.",
                 envelope.MessageId,
-                envelope.SourceEntityName);
+                envelope.SourceEntityName
+            );
             throw;
         }
     }
@@ -142,7 +150,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
             DeadLetterErrorDescription: envelope.DeadLetterErrorDescription,
             DeliveryCount: envelope.DeliveryCount,
             SourceEntityName: envelope.SourceEntityName,
-            ApplicationProperties: envelope.ApplicationProperties);
+            ApplicationProperties: envelope.ApplicationProperties
+        );
 
         var classification = _classifier.Classify(input);
 
@@ -154,7 +163,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                     + "from {SourceEntityName}: {Reasoning}",
                 envelope.MessageId,
                 envelope.SourceEntityName,
-                classification.Reasoning);
+                classification.Reasoning
+            );
         }
         else
         {
@@ -166,7 +176,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
                 envelope.SourceEntityName,
                 classification.Category,
                 classification.MatchedRule,
-                classification.Reasoning);
+                classification.Reasoning
+            );
         }
 
         return classification;
@@ -174,7 +185,8 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
 
     private static DeadLetterRecord BuildRecord(
         DeadLetterIngestionEnvelope envelope,
-        DeadLetterClassification classification)
+        DeadLetterClassification classification
+    )
     {
         return new DeadLetterRecord
         {
@@ -225,9 +237,11 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
         }
         return false;
     }
+
     private async Task<DeadLetterRecord?> FindExistingAsync(
         DeadLetterIngestionEnvelope envelope,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         // Single targeted lookup against the same unique tuple that just rejected
         // our INSERT. The repo's GetByIdentityAsync uses an index seek on
@@ -235,12 +249,13 @@ public sealed class DeadLetterIngestionService : IDeadLetterIngestionService
         // O(log n) regardless of table size. Returns null only if the unique-index
         // violation reflects a race that resolved before we re-read, which is a
         // defect signal handled by the caller's error path.
-        return await _repo.GetByIdentityAsync(
+        return await _repo
+            .GetByIdentityAsync(
                 envelope.MessageId,
                 envelope.SourceEntityName,
                 envelope.DeadLetteredTimeUtc,
-                cancellationToken)
+                cancellationToken
+            )
             .ConfigureAwait(false);
     }
-
 }

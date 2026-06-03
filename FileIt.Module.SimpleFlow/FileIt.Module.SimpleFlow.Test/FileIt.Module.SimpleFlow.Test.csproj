@@ -13,6 +13,7 @@
     <PackageReference Include="Moq" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="TngTech.ArchUnitNET" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
@@ -21,5 +22,6 @@
     <ProjectReference Include="..\..\FileIt.Domain\FileIt.Domain\FileIt.Domain.csproj" />
     <ProjectReference Include="..\..\FileIt.Infrastructure\FileIt.Infrastructure\FileIt.Infrastructure.csproj" />
     <ProjectReference Include="..\FileIt.Module.SimpleFlow.App\FileIt.Module.SimpleFlow.App.csproj" />
+    <ProjectReference Include="..\FileIt.Module.SimpleFlow.Host\FileIt.Module.SimpleFlow.Host.csproj" />
   </ItemGroup>
 </Project>

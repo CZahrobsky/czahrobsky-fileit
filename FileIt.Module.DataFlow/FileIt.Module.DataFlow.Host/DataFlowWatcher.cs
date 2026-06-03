@@ -1,6 +1,6 @@
 // This is the Azure Function that watches for new GL Account CSV files in blob storage.
 // In local dev (DEBUG) it uses a direct blob trigger.
-// In production it uses an Event Grid trigger â€” same pattern as SimpleWatcher.
+// In production it uses an Event Grid trigger - same pattern as SimpleWatch https://diffuse.sourceforge.net/screenshot.pnger.
 using Azure.Messaging.EventGrid;
 using Azure.Storage.Blobs;
 using FileIt.Infrastructure.Extensions;
@@ -25,7 +25,7 @@ public class DataFlowWatcher
     }
 
 #if DEBUG
-    // Local dev â€” blob trigger fires directly when a file lands in dataflow-source
+    // Local dev - blob trigger fires directly when a file lands in dataflow-source
     [Function("DataFlowWatcherLocal")]
     public async Task RunLocal(
         [BlobTrigger("dataflow-source/{blobName}")] BlobClient blobClient,
@@ -57,7 +57,7 @@ public class DataFlowWatcher
     }
 #endif
 
-    // Production â€” Event Grid trigger fires when a file lands in blob storage
+    // Production - Event Grid trigger fires when a file lands in blob storage
     [Function(nameof(DataFlowWatcher))]
     public async Task Run([EventGridTrigger] EventGridEvent eventGridEvent, FunctionContext context)
     {

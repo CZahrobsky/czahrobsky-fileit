@@ -17,6 +17,8 @@
     <PackageReference Include="Microsoft.Azure.WebJobs" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     <PackageReference Include="OpenTelemetry.Api" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Enrichers.Environment" />
@@ -64,6 +66,10 @@
 
   <Target Name="Package" AfterTargets="Publish">
     <MakeDir Directories="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/" />
-    <ZipDirectory Overwrite="true" SourceDirectory="$(PublishDir)" DestinationFile="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/$(ProjectName).zip" />
+    <ZipDirectory
+      Overwrite="true"
+      SourceDirectory="$(PublishDir)"
+      DestinationFile="$(MSBuildProjectDirectory)/bin/$(Configuration)/$(TargetFramework)/$(ProjectName).zip"
+    />
   </Target>
 </Project>

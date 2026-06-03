@@ -2,6 +2,9 @@ using FileIt.Domain.Entities.DeadLetter;
 
 namespace FileIt.Infrastructure.DeadLetter.Ingestion;
 
+// Re-export SourceEntityType so consumers only depend on Infrastructure, not Domain
+using SourceEntityType = FileIt.Domain.Entities.DeadLetter.SourceEntityType;
+
 /// <summary>
 /// Validated, broker-agnostic representation of a dead-lettered message ready for ingestion.
 /// </summary>
@@ -102,39 +105,42 @@ public sealed record DeadLetterIngestionEnvelope
         string messageBody,
         string? messageProperties,
         string? contentType,
-        IReadOnlyDictionary<string, object?> applicationProperties)
+        IReadOnlyDictionary<string, object?> applicationProperties
+    )
     {
         if (string.IsNullOrWhiteSpace(messageId))
         {
-            throw new ArgumentException(
-                "MessageId is required.", nameof(messageId));
+            throw new ArgumentException("MessageId is required.", nameof(messageId));
         }
         if (string.IsNullOrWhiteSpace(sourceEntityName))
         {
-            throw new ArgumentException(
-                "SourceEntityName is required.", nameof(sourceEntityName));
+            throw new ArgumentException("SourceEntityName is required.", nameof(sourceEntityName));
         }
         if (deliveryCount < 0)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(deliveryCount), deliveryCount,
-                "DeliveryCount must be non-negative.");
+                nameof(deliveryCount),
+                deliveryCount,
+                "DeliveryCount must be non-negative."
+            );
         }
         if (enqueuedTimeUtc.Kind != DateTimeKind.Utc)
         {
-            throw new ArgumentException(
-                "EnqueuedTimeUtc must be UTC.", nameof(enqueuedTimeUtc));
+            throw new ArgumentException("EnqueuedTimeUtc must be UTC.", nameof(enqueuedTimeUtc));
         }
         if (deadLetteredTimeUtc.Kind != DateTimeKind.Utc)
         {
             throw new ArgumentException(
-                "DeadLetteredTimeUtc must be UTC.", nameof(deadLetteredTimeUtc));
+                "DeadLetteredTimeUtc must be UTC.",
+                nameof(deadLetteredTimeUtc)
+            );
         }
         if (messageBody is null)
         {
             throw new ArgumentNullException(
                 nameof(messageBody),
-                "MessageBody is required; replay is impossible without the body.");
+                "MessageBody is required; replay is impossible without the body."
+            );
         }
         ArgumentNullException.ThrowIfNull(applicationProperties);
 
@@ -161,13 +167,91 @@ public sealed record DeadLetterIngestionEnvelope
     }
 
     /// <summary>
+    /// Constructs an envelope for queue-sourced dead letters.
+    /// </summary>
+    public static DeadLetterIngestionEnvelope CreateForQueue(
+        string messageId,
+        string? correlationId,
+        string? sessionId,
+        string sourceEntityName,
+        string? deadLetterReason,
+        string? deadLetterErrorDescription,
+        int deliveryCount,
+        DateTime enqueuedTimeUtc,
+        DateTime deadLetteredTimeUtc,
+        string messageBody,
+        string? messageProperties,
+        string? contentType,
+        IReadOnlyDictionary<string, object?> applicationProperties
+    )
+    {
+        return Create(
+            messageId: messageId,
+            correlationId: correlationId,
+            sessionId: sessionId,
+            sourceEntityType: SourceEntityType.Queue,
+            sourceEntityName: sourceEntityName,
+            sourceSubscriptionName: null,
+            deadLetterReason: deadLetterReason,
+            deadLetterErrorDescription: deadLetterErrorDescription,
+            deliveryCount: deliveryCount,
+            enqueuedTimeUtc: enqueuedTimeUtc,
+            deadLetteredTimeUtc: deadLetteredTimeUtc,
+            messageBody: messageBody,
+            messageProperties: messageProperties,
+            contentType: contentType,
+            applicationProperties: applicationProperties
+        );
+    }
+
+    /// <summary>
+    /// Constructs an envelope for topic-subscription-sourced dead letters.
+    /// </summary>
+    public static DeadLetterIngestionEnvelope CreateForTopic(
+        string messageId,
+        string? correlationId,
+        string? sessionId,
+        string sourceEntityName,
+        string sourceSubscriptionName,
+        string? deadLetterReason,
+        string? deadLetterErrorDescription,
+        int deliveryCount,
+        DateTime enqueuedTimeUtc,
+        DateTime deadLetteredTimeUtc,
+        string messageBody,
+        string? messageProperties,
+        string? contentType,
+        IReadOnlyDictionary<string, object?> applicationProperties
+    )
+    {
+        return Create(
+            messageId: messageId,
+            correlationId: correlationId,
+            sessionId: sessionId,
+            sourceEntityType: SourceEntityType.Topic,
+            sourceEntityName: sourceEntityName,
+            sourceSubscriptionName: sourceSubscriptionName,
+            deadLetterReason: deadLetterReason,
+            deadLetterErrorDescription: deadLetterErrorDescription,
+            deliveryCount: deliveryCount,
+            enqueuedTimeUtc: enqueuedTimeUtc,
+            deadLetteredTimeUtc: deadLetteredTimeUtc,
+            messageBody: messageBody,
+            messageProperties: messageProperties,
+            contentType: contentType,
+            applicationProperties: applicationProperties
+        );
+    }
+
+    /// <summary>
     /// Mirrors <c>CK_DeadLetterRecord_SubscriptionPresence</c>: SourceSubscriptionName
     /// must be null for queues and non-null for topics. Catching this in code keeps
     /// failures out of the database round-trip and produces a clean error message.
     /// </summary>
     private static void SubscriptionPresenceInvariant(
         SourceEntityType sourceEntityType,
-        string? sourceSubscriptionName)
+        string? sourceSubscriptionName
+    )
     {
         switch (sourceEntityType)
         {
@@ -176,7 +260,8 @@ public sealed record DeadLetterIngestionEnvelope
                 {
                     throw new ArgumentException(
                         "SourceSubscriptionName must be null when SourceEntityType is Queue.",
-                        nameof(sourceSubscriptionName));
+                        nameof(sourceSubscriptionName)
+                    );
                 }
                 break;
 
@@ -185,7 +270,8 @@ public sealed record DeadLetterIngestionEnvelope
                 {
                     throw new ArgumentException(
                         "SourceSubscriptionName is required when SourceEntityType is Topic.",
-                        nameof(sourceSubscriptionName));
+                        nameof(sourceSubscriptionName)
+                    );
                 }
                 break;
 
@@ -193,10 +279,11 @@ public sealed record DeadLetterIngestionEnvelope
                 throw new ArgumentOutOfRangeException(
                     nameof(sourceEntityType),
                     sourceEntityType,
-                    "Unknown SourceEntityType.");
+                    "Unknown SourceEntityType."
+                );
         }
     }
 
-    private static string? NullIfBlank(string? value)
-        => string.IsNullOrWhiteSpace(value) ? null : value;
+    private static string? NullIfBlank(string? value) =>
+        string.IsNullOrWhiteSpace(value) ? null : value;
 }

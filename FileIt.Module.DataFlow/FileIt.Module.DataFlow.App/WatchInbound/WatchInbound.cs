@@ -1,6 +1,6 @@
 // This is the entry point for the DataFlow module.
 // It gets triggered when a new GL Account CSV file lands in the source blob container.
-// It does three things: logs the incoming file, moves it to working, 
+// It does three things: logs the incoming file, moves it to working,
 // and puts a message on the service bus to kick off the transform.
 using FileIt.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,11 @@ namespace FileIt.Module.DataFlow.App.WatchInbound;
 
 public interface IWatchInbound
 {
-    Task RunAsync(string blobName, string correlationId, CancellationToken cancellationToken = default);
+    Task RunAsync(
+        string blobName,
+        string correlationId,
+        CancellationToken cancellationToken = default
+    );
 }
 
 public class WatchInbound : IWatchInbound
@@ -35,7 +39,11 @@ public class WatchInbound : IWatchInbound
         _requestLogRepo = requestLogRepo;
     }
 
-    public async Task RunAsync(string blobName, string correlationId, CancellationToken cancellationToken = default)
+    public async Task RunAsync(
+        string blobName,
+        string correlationId,
+        CancellationToken cancellationToken = default
+    )
     {
         // Step 1 - write a record to the database so we can trace this file through the whole flow
         _logger.LogInformation(
@@ -53,7 +61,12 @@ public class WatchInbound : IWatchInbound
             "Moving {BlobName} to working container",
             blobName
         );
-        await _blobTool.MoveAsync(blobName, _config.SourceContainer, _config.WorkingContainer, cancellationToken);
+        await _blobTool.MoveAsync(
+            blobName,
+            _config.SourceContainer,
+            _config.WorkingContainer,
+            cancellationToken
+        );
 
         cancellationToken.ThrowIfCancellationRequested();
 

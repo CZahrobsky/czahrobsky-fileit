@@ -13,6 +13,7 @@
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="NetArchTest.Rules" />
     <PackageReference Include="OpenTelemetry.Api" />
+    <PackageReference Include="TngTech.ArchUnitNET" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
@@ -20,12 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\FileIt.Domain\FileIt.Domain\FileIt.Domain.csproj" />
     <ProjectReference Include="..\FileIt.Infrastructure\FileIt.Infrastructure\FileIt.Infrastructure.csproj" />
-    <ProjectReference Include="..\FileIt.Module.DataFlow\FileIt.Module.DataFlow.App\FileIt.Module.DataFlow.App.csproj" />
-    <ProjectReference Include="..\FileIt.Module.DataFlow\FileIt.Module.DataFlow.Host\FileIt.Module.DataFlow.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.Services\FileIt.Module.Services.App\FileIt.Module.Services.App.csproj" />
     <ProjectReference Include="..\FileIt.Module.Services\FileIt.Module.Services.Host\FileIt.Module.Services.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.SimpleFlow\FileIt.Module.SimpleFlow.App\FileIt.Module.SimpleFlow.App.csproj" />
     <ProjectReference Include="..\FileIt.Module.SimpleFlow\FileIt.Module.SimpleFlow.Host\FileIt.Module.SimpleFlow.Host.csproj" />
+    <ProjectReference Include="..\FileIt.Module.DataFlow\FileIt.Module.DataFlow.App\FileIt.Module.DataFlow.App.csproj" />
+    <ProjectReference Include="..\FileIt.Module.DataFlow\FileIt.Module.DataFlow.Host\FileIt.Module.DataFlow.Host.csproj" />
     <ProjectReference Include="..\FileIt.Module.Complex\FileIt.Module.Complex.App\FileIt.Module.Complex.App.csproj" />
     <ProjectReference Include="..\FileIt.Module.Complex\FileIt.Module.Complex.Host\FileIt.Module.Complex.Host.csproj" />
   </ItemGroup>

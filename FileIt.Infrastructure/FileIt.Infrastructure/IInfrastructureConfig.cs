@@ -38,11 +38,17 @@ public class InfrastructureConfig : IInfrastructureConfig
         else
             missing.Add(SERVICEBUS_NAMESPACE);
 
+        // Required for every module: database connection. Without it, the platform's
+        // structured logging and audit tables don't work.
         if (ParseConfigValue(DB_CONNECTION_STRING, out parsedValue))
             DbConnectionString = parsedValue;
         else
             missing.Add(DB_CONNECTION_STRING);
 
+        // Optional per module: Service Bus and Storage. The UI module is read-only
+        // (queries SQL, uploads blobs via managed identity) and does not consume from
+        // Service Bus. Each module that needs these binds them at the function level
+        // and the runtime will throw at trigger registration time if they're missing.
         if (ParseConfigValue(SERVICEBUS_CONNECTION_STRING, out parsedValue))
             BusConnectionString = parsedValue;
         else
@@ -55,6 +61,13 @@ public class InfrastructureConfig : IInfrastructureConfig
 
         if (ParseConfigValue(APPLICATIONINSIGHTS_CONNECTION_STRING, out parsedValue))
             AppInsightsConnectionString = parsedValue;
+
+        if (missing.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Required configuration values are missing: {string.Join(", ", missing)}. " +
+                "Ensure these are set in appsettings.json, environment variables, or user secrets.");
+        }
     }
 
     private bool ParseConfigValue(string key, out string? parsedValue)

@@ -11,7 +11,6 @@
 using System.Text;
 using System.Text.Json;
 using Azure.Messaging.ServiceBus;
-using FileIt.Domain.Entities.DeadLetter;
 using FileIt.Infrastructure;
 using FileIt.Infrastructure.DeadLetter.Ingestion;
 using Microsoft.Azure.Functions.Worker;
@@ -56,7 +55,8 @@ public class DataFlowDeadLetterReader
 
     public DataFlowDeadLetterReader(
         IDeadLetterIngestionService ingestion,
-        ILogger<DataFlowDeadLetterReader> logger)
+        ILogger<DataFlowDeadLetterReader> logger
+    )
     {
         _ingestion = ingestion ?? throw new ArgumentNullException(nameof(ingestion));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -65,17 +65,22 @@ public class DataFlowDeadLetterReader
     [Function(nameof(DataFlowDeadLetterReader))]
     public async Task Run(
         [ServiceBusTrigger(DeadLetterPath)] ServiceBusReceivedMessage message,
-        FunctionContext context)
+        FunctionContext context
+    )
     {
         ArgumentNullException.ThrowIfNull(message);
         var cancellationToken = context.CancellationToken;
         var correlationId = message.CorrelationId ?? string.Empty;
 
-        using (_logger.BeginScope(new Dictionary<string, object>
-        {
-            { "CorrelationId", correlationId },
-            { "DeadLetterSource", SourceQueueName },
-        }))
+        using (
+            _logger.BeginScope(
+                new Dictionary<string, object>
+                {
+                    { "CorrelationId", correlationId },
+                    { "DeadLetterSource", SourceQueueName },
+                }
+            )
+        )
         {
             _logger.LogInformation(
                 InfrastructureEvents.DeadLetterMessageReceived,
@@ -84,21 +89,21 @@ public class DataFlowDeadLetterReader
                 SourceQueueName,
                 message.MessageId,
                 message.DeliveryCount,
-                message.DeadLetterReason ?? "<null>");
+                message.DeadLetterReason ?? "<null>"
+            );
 
             var envelope = BuildEnvelope(message);
 
-            var record = await _ingestion.IngestAsync(envelope, cancellationToken)
+            await _ingestion
+                .IngestWithoutResultAsync(envelope, cancellationToken)
                 .ConfigureAwait(false);
 
             _logger.LogInformation(
                 InfrastructureEvents.DeadLetterRecordPersisted,
-                "Dead-letter ingestion complete for {SourceQueueName} MessageId={MessageId}; "
-                    + "DeadLetterRecordId={DeadLetterRecordId}, Category={FailureCategory}.",
+                "Dead-letter ingestion complete for {SourceQueueName} MessageId={MessageId}.",
                 SourceQueueName,
-                message.MessageId,
-                record.DeadLetterRecordId,
-                record.FailureCategory);
+                message.MessageId
+            );
         }
     }
 
@@ -159,15 +164,11 @@ public class DataFlowDeadLetterReader
 
         var classifierProps = ProjectApplicationProperties(message.ApplicationProperties);
 
-
-
-        return DeadLetterIngestionEnvelope.Create(
+        return DeadLetterIngestionEnvelope.CreateForQueue(
             messageId: message.MessageId,
             correlationId: message.CorrelationId,
             sessionId: message.SessionId,
-            sourceEntityType: SourceEntityType.Queue,
             sourceEntityName: SourceQueueName,
-            sourceSubscriptionName: null,
             deadLetterReason: message.DeadLetterReason,
             deadLetterErrorDescription: message.DeadLetterErrorDescription,
             deliveryCount: message.DeliveryCount,
@@ -176,7 +177,8 @@ public class DataFlowDeadLetterReader
             messageBody: body,
             messageProperties: serializedAppProps,
             contentType: message.ContentType,
-            applicationProperties: classifierProps);
+            applicationProperties: classifierProps
+        );
     }
 
     /// <summary>
@@ -188,7 +190,8 @@ public class DataFlowDeadLetterReader
     /// </summary>
     private static bool TryReadStampedEnqueuedTime(
         IReadOnlyDictionary<string, object> applicationProperties,
-        out DateTime value)
+        out DateTime value
+    )
     {
         value = default;
 
@@ -197,9 +200,10 @@ public class DataFlowDeadLetterReader
             return false;
         }
 
-        if (!applicationProperties.TryGetValue(
-                FileItMessageProperties.EnqueuedTimeUtc, out var raw)
-            || raw is null)
+        if (
+            !applicationProperties.TryGetValue(FileItMessageProperties.EnqueuedTimeUtc, out var raw)
+            || raw is null
+        )
         {
             return false;
         }
@@ -213,11 +217,14 @@ public class DataFlowDeadLetterReader
         // RoundtripKind preserves the UTC kind that publishers stamp via "O" format.
         // AssumeUniversal would silently rescue a non-UTC string; we deliberately
         // refuse that, because a non-UTC stamp is itself a bug worth surfacing.
-        if (!DateTime.TryParse(
+        if (
+            !DateTime.TryParse(
                 asString,
                 System.Globalization.CultureInfo.InvariantCulture,
                 System.Globalization.DateTimeStyles.RoundtripKind,
-                out var parsed))
+                out var parsed
+            )
+        )
         {
             return false;
         }
@@ -230,6 +237,7 @@ public class DataFlowDeadLetterReader
         value = parsed;
         return true;
     }
+
     private static string DecodeBody(ServiceBusReceivedMessage message)
     {
         // BinaryData.ToString() decodes as UTF-8 when the data is text-shaped, which
@@ -240,7 +248,8 @@ public class DataFlowDeadLetterReader
     }
 
     private static string? SerializeApplicationProperties(
-        IReadOnlyDictionary<string, object> applicationProperties)
+        IReadOnlyDictionary<string, object> applicationProperties
+    )
     {
         if (applicationProperties is null || applicationProperties.Count == 0)
         {
@@ -261,7 +270,8 @@ public class DataFlowDeadLetterReader
     }
 
     private static IReadOnlyDictionary<string, object?> ProjectApplicationProperties(
-        IReadOnlyDictionary<string, object> applicationProperties)
+        IReadOnlyDictionary<string, object> applicationProperties
+    )
     {
         // The classifier expects IReadOnlyDictionary<string, object?> (nullable
         // values). Service Bus exposes IReadOnlyDictionary<string, object> (non-nullable

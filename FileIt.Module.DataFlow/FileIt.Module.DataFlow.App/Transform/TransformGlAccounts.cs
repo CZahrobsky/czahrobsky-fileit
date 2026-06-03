@@ -11,7 +11,11 @@ namespace FileIt.Module.DataFlow.App.Transform;
 
 public interface ITransformGlAccounts
 {
-    Task<string> RunAsync(Stream csvStream, string correlationId, CancellationToken cancellationToken = default);
+    Task<string> RunAsync(
+        Stream csvStream,
+        string correlationId,
+        CancellationToken cancellationToken = default
+    );
 }
 
 public class TransformGlAccounts : ITransformGlAccounts
@@ -40,7 +44,11 @@ public class TransformGlAccounts : ITransformGlAccounts
         _logger = logger;
     }
 
-    public async Task<string> RunAsync(Stream csvStream, string correlationId, CancellationToken cancellationToken = default)
+    public async Task<string> RunAsync(
+        Stream csvStream,
+        string correlationId,
+        CancellationToken cancellationToken = default
+    )
     {
         _logger.LogInformation(
             DataFlowEvents.DataFlowTransform,
@@ -58,11 +66,40 @@ public class TransformGlAccounts : ITransformGlAccounts
             lines.Add(csvLine);
         }
 
-        // First line is the header â€” skip it but use it to find our column positions
+        // First line is the header – skip it but use it to find our column positions
         var headers = lines[0].Split(',');
         int companyCodeIndex = Array.IndexOf(headers, " COMPANYCODE");
         int accountGroupIndex = Array.IndexOf(headers, " GLACCOUNTGROUP");
         int balanceSheetIndex = Array.IndexOf(headers, " ISBALANCESHEETACCOUNT");
+
+        // === FIX: Validate that all required columns exist in the CSV header ===
+        // Array.IndexOf returns -1 if not found; accessing fields[<negative index>] later
+        // would throw IndexOutOfRangeException. Fail fast with a clear message.
+        if (companyCodeIndex == -1)
+        {
+            throw new InvalidOperationException(
+                $"Required CSV column ' COMPANYCODE' not found in header. "
+                    + $"Available columns: {string.Join(", ", headers)}. "
+                    + $"Correlation {correlationId}."
+            );
+        }
+        if (accountGroupIndex == -1)
+        {
+            throw new InvalidOperationException(
+                $"Required CSV column ' GLACCOUNTGROUP' not found in header. "
+                    + $"Available columns: {string.Join(", ", headers)}. "
+                    + $"Correlation {correlationId}."
+            );
+        }
+        if (balanceSheetIndex == -1)
+        {
+            throw new InvalidOperationException(
+                $"Required CSV column ' ISBALANCESHEETACCOUNT' not found in header. "
+                    + $"Available columns: {string.Join(", ", headers)}. "
+                    + $"Correlation {correlationId}."
+            );
+        }
+        // === END FIX ===
 
         // Group the rows by company code and account group and count them
         // We use a dictionary where the key is "COMPANYCODE|GLACCOUNTGROUP"
@@ -90,9 +127,10 @@ public class TransformGlAccounts : ITransformGlAccounts
             {
                 throw new InvalidOperationException(
                     $"Deliberate poison trigger fired: COMPANYCODE '{companyCode}' starts "
-                    + $"with '{PoisonCompanyCodePrefix}'. This row is a poison test marker; "
-                    + "see docs/dead-letter-strategy.md Section 10. Correlation "
-                    + $"{correlationId}.");
+                        + $"with '{PoisonCompanyCodePrefix}'. This row is a poison test marker; "
+                        + "see docs/dead-letter-strategy.md Section 10. Correlation "
+                        + $"{correlationId}."
+                );
             }
 
             string key = $"{companyCode}|{accountGroup}";
@@ -108,7 +146,7 @@ public class TransformGlAccounts : ITransformGlAccounts
         // Build the output CSV
         var outputLines = new List<string>
         {
-            "CompanyCode,AccountGroup,TotalAccounts,BalanceSheetAccounts,NonBalanceSheetAccounts"
+            "CompanyCode,AccountGroup,TotalAccounts,BalanceSheetAccounts,NonBalanceSheetAccounts",
         };
 
         foreach (var kvp in summary.OrderBy(k => k.Key))
@@ -122,7 +160,9 @@ public class TransformGlAccounts : ITransformGlAccounts
             int balanceSheet = kvp.Value.BalanceSheetCount;
             int nonBalanceSheet = total - balanceSheet;
 
-            outputLines.Add($"{companyCode},{accountGroup},{total},{balanceSheet},{nonBalanceSheet}");
+            outputLines.Add(
+                $"{companyCode},{accountGroup},{total},{balanceSheet},{nonBalanceSheet}"
+            );
         }
 
         _logger.LogInformation(

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using Azure.Identity;
 using Azure.Messaging;
 using Azure.Messaging.EventGrid;
 using Azure.Messaging.ServiceBus;
@@ -77,8 +78,28 @@ public class SimpleWatcher
         _logger.LogInformation("Received EventGridEvent: {@EventGridEvent}", eventGridEvent);
         var blobName = (eventGridEvent.Subject ?? string.Empty).Split('/').Last();
 
-        // use the blobClient to get the x-ms-client-request-id property from the original request header
+        // Prefer the correlation id the uploader stamped into blob metadata (e.g. the
+        // operator UI) so the whole flow shares one id end to end. Fall back to the
+        // EventGrid event id only when no metadata id is present.
         string clientRequestId = eventGridEvent.Id;
+        try
+        {
+            var storageUri = Environment.GetEnvironmentVariable("FileItStorage__serviceUri") ?? string.Empty;
+            var clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
+            var blobClient = new BlobContainerClient(
+                new Uri(new Uri(storageUri), _config.SourceContainer + "/"),
+                new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = clientId }))
+                .GetBlobClient(blobName);
+            var metaId = await blobClient.GetCorrelationId();
+            if (!string.IsNullOrWhiteSpace(metaId))
+            {
+                clientRequestId = metaId;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not read blob metadata correlation id for {BlobName}, using EventGrid id.", blobName);
+        }
 
         using (
             _logger!.BeginScope(

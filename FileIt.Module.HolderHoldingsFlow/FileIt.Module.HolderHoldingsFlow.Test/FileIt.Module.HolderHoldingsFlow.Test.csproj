@@ -30,6 +30,7 @@
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="System.Data.OleDb" />
+    <PackageReference Include="TngTech.ArchUnitNET" />
   </ItemGroup>
 
   <ItemGroup>

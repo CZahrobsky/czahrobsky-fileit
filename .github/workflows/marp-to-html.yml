@@ -1,0 +1,71 @@
+name: Deploy Marp Slides to GitHub Pages
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'slides/**'
+      - '.github/workflows/marp-to-html.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare build folder
+        run: mkdir -p build
+
+      - name: Install Marp CLI
+        run: npm install --no-save @marp-team/marp-cli
+
+      - name: Build slide deck
+        shell: bash
+        run: |
+          mkdir -p build
+
+          if [ ! -f "slides/index.md" ]; then
+            echo "Missing slides/index.md"
+            exit 1
+          fi
+
+          echo "Building slides/index.md -> build/index.html"
+          npx marp slides/index.md --allow-local-files --html --output build/index.html
+
+          ls -lah build
+
+      - name: Verify generated site
+        shell: bash
+        run: |
+          test -f build/index.html
+          ls -lah build
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

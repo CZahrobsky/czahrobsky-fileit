@@ -2,8 +2,8 @@ using FileIt.Infrastructure.Extensions;
 using FileIt.Infrastructure.Logging;
 using FileIt.Infrastructure.Middleware;
 using FileIt.Module.DataFlow.App;
-using FileIt.Module.DataFlow.App.WatchInbound;
 using FileIt.Module.DataFlow.App.Transform;
+using FileIt.Module.DataFlow.App.WatchInbound;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +35,7 @@ builder.Services.AddSingleton(config);
 // Register our DataFlow handlers
 builder.Services.AddScoped<IWatchInbound, WatchInbound>();
 builder.Services.AddScoped<ITransformGlAccounts, TransformGlAccounts>();
+builder.Services.AddScoped<IDataFlowTransformProcessor, DataFlowTransformProcessor>();
 
 // Wire up the shared infrastructure (blob, service bus, database)
 var infrastructureConfig = builder.GetInfrastructureConfig();

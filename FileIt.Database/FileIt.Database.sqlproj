@@ -2,9 +2,6 @@
 <Project DefaultTargets="Build">
   <Sdk Name="Microsoft.Build.Sql" Version="2.0.0" />
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-  </PropertyGroup>  
-  <PropertyGroup>
     <Name>FileIt.Database</Name>
     <ProjectGuid>{430bb322-a989-4f38-8c3a-eaefcaf75448}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
