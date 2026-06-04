@@ -12,7 +12,7 @@ namespace FileIt.Module.HolderHoldingsFlow.App.Strategies
 
     public interface IHolderHoldingTransactionsImporter
     {
-        Task ImportDeltaAsync(Stream file, CancellationToken ct);
+        Task ImportHolderHoldingTransactionsAsync(Stream file, CancellationToken ct);
     }
 
     public interface IHoldingsQueryStrategy

@@ -13,7 +13,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Host.Infrastructure
             this.context = context;
         }
 
-        public Task ImportDeltaAsync(Stream file, CancellationToken ct)
+        public Task ImportHolderHoldingTransactionsAsync(Stream file, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

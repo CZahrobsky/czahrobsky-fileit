@@ -13,6 +13,7 @@ using FileIt.Infrastructure.Middleware;
 using FileIt.Module.HolderHoldingsFlow.App.Services;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 using FileIt.Module.HolderHoldingsFlow.Test;
+using FileIt.Module.HolderHoldingsFlow.Test.TestStrategies;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
@@ -27,33 +28,30 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
     [TestClass]
     public class HolderHoldingsFlowTest
     {
-        static string mdbFile = "";
         static string connectionString = "";
         static char qt = '\"';
+        TestSource src = null;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            // Unzip the embedded MDB file resource to a temporary location for testing
-            mdbFile = UnzipResourceToTemp("FileIt.zip").FirstOrDefault() ?? "N/A";
-            Assert.IsTrue(File.Exists(mdbFile), "Failed to extract MDB file for testing.");
-            connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={mdbFile};";
+            src = new TestSource();
         }
 
         [TestMethod]
         public void TestHolders()
         {
             HolderIngestionService holderIngest = new HolderIngestionService();
-            HolderIngestionService.Source = new TestSource();
+            HolderIngestionService.Source = src;
             var holders = holderIngest.LoadHoldersAsync().GetAwaiter().GetResult();
         }
 
         [TestMethod]
         public void ImportPresentValues()
         {
-            var toProcess = UnzipResourceToTemp("PresentValues");
+            var toProcess = src.UnzipResourceToTemp("PresentValues");
             var sqlValues = $"SELECT * FROM HHF_PresentValue WHERE AsOfDate > (SELECT MAX(AsOfDate - 3) FROM HHF_PresentValue) ORDER BY ID";
-            var dtValues = GetRows(connectionString, sqlValues);
+            var dtValues = src.GetRows(sqlValues);
             Assert.IsNotNull(dtValues);
             long lastCount = dtValues.Rows.Count;
             DateTime parsedDate = DateTime.MinValue;
@@ -82,7 +80,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
                                 {
                                     string key = pair.Split(qt)[0];
                                     string val = (pair + ":").Split(':')[1].Replace(qt + "", "");
-                                    SetRowKeyVal(row, key, val);
+                                    src.SetRowKeyVal(row, key, val);
                                 }
                                 if (row[1] + "" == "") continue;
                                 string where = "CusipOrSymbol='" + row["CusipOrSymbol"];
@@ -96,14 +94,14 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
                                     if (dtValues.Rows.Count > lastCount + 1001)
                                     {
                                         lastCount = dtValues.Rows.Count;
-                                        UpdateTable(sqlValues, dtValues);
+                                        src.UpdateTable(sqlValues, dtValues);
                                     }
                                 }
                             }
                         }
                         if (dtValues.Rows.Count > lastCount)
                         {
-                            UpdateTable(sqlValues, dtValues);
+                            src.UpdateTable(sqlValues, dtValues);
                         }
                     }
                 }
@@ -121,7 +119,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
             }
             var assm = typeof(HolderHoldingsFlowTest).Assembly;
             var sqlHolding = $"SELECT TOP 1 * FROM HHF_Holdings WHERE HolderId = 'N/A'";
-            var dtHolding = GetRows(connectionString, sqlHolding);
+            var dtHolding = src.GetRows(sqlHolding);
             Assert.IsNotNull(dtHolding);
             foreach (var res in assm.GetManifestResourceNames())
             {
@@ -154,18 +152,18 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
                                         id = val;
                                         sql = $"SELECT TOP 1 * FROM HHF_Holders WHERE HolderId = '{id}'";
                                         // Connect to the local OLEDB database and populate DataTable
-                                        dt = GetRows(connectionString, sql);
+                                        dt = src.GetRows(sql);
                                         Assert.IsNotNull(dt);
                                         row = dt == null ? null : (dt.Rows.Count > 0 ? dt.Rows[0] : dt.NewRow());
                                         row["HolderId"] = id;
                                     }
                                     else
                                     {
-                                        SetRowKeyVal(row, key, val);
+                                        src.SetRowKeyVal(row, key, val);
                                     }
                                     if (line.Replace("\t", "").Replace(",", "").Trim().EndsWith("}"))
                                     {
-                                        UpdateRow(row, sql);
+                                        src.UpdateRow(row, sql);
                                     }
                                 }
                             }
@@ -198,12 +196,12 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
                                         {
                                             val = line.Split(':').Last().Replace(",", "").Replace(qt + "", "").Trim();
                                         }
-                                        SetRowKeyVal(row, key, val);
+                                        src.SetRowKeyVal(row, key, val);
                                     }
                                     if (line.Replace("\t", "").Replace(",", "").Trim().EndsWith("}"))
                                     {
                                         row["AsOfDate"] = DateTime.Today;
-                                        UpdateRow(row, sqlHolding);
+                                        src.UpdateRow(row, sqlHolding);
                                     }
                                 }
                             }
@@ -214,156 +212,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
             }
         }
 
-        private static DataTable GetRows(string connectionString, string sql)
-        {
-            DataTable dt = new DataTable();
-            using (var connection = new OleDbConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (var command = new OleDbCommand(sql, connection))
-                    {
-                        command.CommandTimeout = 30;
-                        using (var adapter = new OleDbDataAdapter(command))
-                        {
-                            adapter.Fill(dt); // Fill DataTable with query results
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Database error for query {sql}: {ex.Message}");
-                }
-            }
-            return dt;
-        }
 
-        private static void SetRowKeyVal(DataRow row, string key, string val)
-        {
-            if (row != null && row.Table.Columns.Contains(key))
-            {
-                var col = row.Table.Columns[key];
-                if (col.DataType.Name.ToLower().Contains("dec"))
-                {
-                    if (Decimal.TryParse(val, out Decimal decimalVal))
-                    {
-                        row[key] = decimalVal;
-                    }
-                }
-                else if (col.DataType.Name.ToLower().Contains("date"))
-                {
-                    if (DateTime.TryParse(val, out DateTime dateVal))
-                    {
-                        row[key] = dateVal;
-                    }
-                }
-                else
-                {
-                    row[key] = val;
-                }
-            }
-        }
-        private static int UpdateRow(DataRow row, string sql)
-        {
-            // Update or insert the Holder
-            int result = 0;
-            if (row != null)
-            {
-                var dt = row.Table;
-                if (row.RowState == DataRowState.Detached)
-                {
-                    dt.Rows.Add(row);
-                }
-                else if (row.RowState == DataRowState.Unchanged)
-                {
-                    return 0;
-                }
-                result = UpdateTable(sql, dt);
-            }
-            return result;
-        }
 
-        public static IList<string> UnzipResourceToTemp(string resourceName, string tempSubFolder = "")
-        {
-            // 1. Get a unique temporary path
-            var found = new List<string>();
-            string tempDirectory = Path.Combine(Path.GetTempPath(), tempSubFolder);
-            Directory.CreateDirectory(tempDirectory);
-
-            // 2. Access the embedded resource stream from the executing assembly
-            var assm = typeof(HolderHoldingsFlowTest).Assembly;
-            var resourceFullName = assm.GetManifestResourceNames().FirstOrDefault(n => n.Contains(resourceName));
-            if (string.IsNullOrEmpty(resourceFullName)) return new string[] { string.Empty };
-            using (Stream resourceStream = assm.GetManifestResourceStream(resourceFullName))
-            {
-                if (resourceStream == null)
-                    throw new FileNotFoundException($"Resource not found: {resourceName}");
-
-                // 3. Open the stream in a ZipArchive
-                using (var archive = new ZipArchive(resourceStream, ZipArchiveMode.Read))
-                {
-                    foreach (ZipArchiveEntry entry in archive.Entries)
-                    {
-                        // Prevent path traversal attacks (e.g., zip files containing "../")
-                        string destinationPath = Path.GetFullPath(Path.Combine(tempDirectory, entry.FullName));
-
-                        // Ensure the extracted file stays within the target directory
-                        if (!destinationPath.StartsWith(tempDirectory, StringComparison.OrdinalIgnoreCase))
-                        {
-                            continue;
-                        }
-
-                        if (string.IsNullOrWhiteSpace(entry.Name))
-                        {
-                            // It's a directory, just create it
-                            Directory.CreateDirectory(destinationPath);
-                        }
-                        else
-                        {
-                            // It's a file, ensure the directory exists and extract
-                            Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
-                            if (!File.Exists(destinationPath))
-                            {
-                                entry.ExtractToFile(destinationPath, overwrite: false);
-                            }
-                            found.Add(destinationPath);
-                        }
-                    }
-                }
-            }
-            return found;
-        }
-
-        private static int UpdateTable(string sql, DataTable dt)
-        {
-            int result;
-            // Use OleDbCommandBuilder to generate the appropriate SQL for insert/update
-            using (var connection = new OleDbConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (var command = new OleDbCommand(sql, connection))
-                    {
-                        command.CommandTimeout = 30;
-                        using (var adapter = new OleDbDataAdapter(command))
-                        {
-                            using (var builder = new OleDbCommandBuilder(adapter))
-                            {
-                                result = adapter.Update(dt);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Database error for query {sql}: {ex.Message}");
-                    result = -1;
-                }
-            }
-
-            return result;
-        }
     }
 }

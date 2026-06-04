@@ -23,7 +23,7 @@ namespace FileIt.Module.HolderHoldingsFlow.App.Services
             if (fileName.Contains("Snapshot", StringComparison.OrdinalIgnoreCase))
                 await _snapshotImporter.ImportSnapshotAsync(inputFile, ct);
             else if (fileName.Contains("Update", StringComparison.OrdinalIgnoreCase))
-                await _deltaImporter.ImportDeltaAsync(inputFile, ct);
+                await _deltaImporter.ImportHolderHoldingTransactionsAsync(inputFile, ct);
             else
                 throw new InvalidOperationException($"Unknown holdings file type: {fileName}");
 

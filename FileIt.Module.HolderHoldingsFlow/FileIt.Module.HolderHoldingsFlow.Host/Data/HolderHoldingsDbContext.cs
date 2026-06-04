@@ -11,6 +11,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Host.Data
 
         public DbSet<Holder> Holders { get; set; }
         public DbSet<Holding> Holdings { get; set; }
+        public DbSet<HolderHoldingTransaction> HolderHoldingTransactions { get; set; }
 
         // public DbSet<HolderHoldingValuation> HolderHoldingValuations { get; set; }
         // public DbSet<PortfolioReportRow> PortfolioReportRows { get; set; }
