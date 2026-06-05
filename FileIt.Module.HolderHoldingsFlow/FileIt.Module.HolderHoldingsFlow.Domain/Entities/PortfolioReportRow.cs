@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities
-{
+namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities;
+
     public class PortfolioReportRow
     {
 
@@ -32,4 +32,3 @@ namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities
         public decimal MarketValue { get; set; }
         public DateTime AsOfDate { get; set; }
     }
-}

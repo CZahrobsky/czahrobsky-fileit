@@ -7,8 +7,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
 
-namespace FileIt.Infrastructure.Middleware
-{
+namespace FileIt.Infrastructure.Middleware;
+
     public class ExceptionHandlingMiddleware : IFunctionsWorkerMiddleware
     {
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
@@ -73,4 +73,3 @@ namespace FileIt.Infrastructure.Middleware
             }
         }
     }
-}

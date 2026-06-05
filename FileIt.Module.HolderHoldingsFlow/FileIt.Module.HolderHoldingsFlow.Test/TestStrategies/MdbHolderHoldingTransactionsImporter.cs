@@ -3,6 +3,7 @@ using System.Data;
 using FileIt.Module.HolderHoldingsFlow.App.Strategies;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 using FileIt.Module.HolderHoldingsFlow.Test.TestStrategies;
+using static System.Net.Mime.MediaTypeNames;
 
 public class MdbHolderHoldingTransactionsImporter : TestSource, IHolderHoldingTransactionsImporter
 {
@@ -11,9 +12,8 @@ public class MdbHolderHoldingTransactionsImporter : TestSource, IHolderHoldingTr
         return Task.Run(() =>
         {
             long lineNumber = 0;
-            var sqlHolding = $"SELECT TOP 1 * FROM HHF_Transactions WHERE HolderId = 'N/A'";
-            var dtHolding = GetRows(sqlHolding);
-            Assert.IsNotNull(dtHolding);
+            var sqlTransactions = $"SELECT TOP 1 * FROM HHF_Transactions WHERE HolderId = 'N/A'";
+            var txList = GetRows(sqlTransactions);
 
             // Load manifest resource from assembly into string
             string line = null;
@@ -38,8 +38,8 @@ public class MdbHolderHoldingTransactionsImporter : TestSource, IHolderHoldingTr
                     if (key.ToLower() == "holderid")
                     {
                         id = val;
-                        dtHolding.Rows.Clear();
-                        row = dtHolding.NewRow();
+                        txList.Rows.Clear();
+                        row = txList.NewRow();
                         row["HolderId"] = id;
                     }
                     else
@@ -53,8 +53,12 @@ public class MdbHolderHoldingTransactionsImporter : TestSource, IHolderHoldingTr
 
                     if (line.Replace("\t", "").Replace(",", "").Trim().EndsWith("}"))
                     {
-                        row["AsOfDate"] = DateTime.Today;
-                        UpdateRow(row, sqlHolding);
+                        DateTime test;
+                        if (!DateTime.TryParse(row["AsOfDate"].ToString(), out test))
+                        {
+                            row["AsOfDate"] = DateTime.Today;
+                        }
+                        UpdateRow(row, sqlTransactions);
                     }
                 }
             }

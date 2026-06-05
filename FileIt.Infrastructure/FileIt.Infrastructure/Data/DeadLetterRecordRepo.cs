@@ -2,8 +2,8 @@ using FileIt.Domain.Entities.DeadLetter;
 using FileIt.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileIt.Infrastructure.Data
-{
+namespace FileIt.Infrastructure.Data;
+
     /// <summary>
     /// Implementation of <see cref="IDeadLetterRecordRepo"/> against
     /// <see cref="CommonDbContext"/>.
@@ -181,4 +181,3 @@ namespace FileIt.Infrastructure.Data
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
-}

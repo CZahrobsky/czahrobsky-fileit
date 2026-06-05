@@ -1,8 +1,11 @@
 using FileIt.Infrastructure;
 using FileIt.Infrastructure.Extensions;
 using FileIt.Module.HolderHoldingsFlow.App.Services;
+using FileIt.Module.HolderHoldingsFlow.App.Strategies;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
+using FileIt.Module.HolderHoldingsFlow.Domain.Interfaces;
 using FileIt.Module.HolderHoldingsFlow.Host.Configuration;
+using FileIt.Module.HolderHoldingsFlow.Host.Infrastructure;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,14 +31,18 @@ var host = new HostBuilder()
 
         // Register Application Services
         services.AddHolderHoldingsFlowServices();
-        services.AddScoped<HolderIngestionService>();
-        services.AddScoped<HoldingIngestionService>();
-        services.AddScoped<PresentValueIngestionService>();
-        services.AddScoped<AggregateHoldingValuationsService>();
-        services.AddScoped<ProcessHoldersHandler>();
-        services.AddScoped<ProcessHoldingsHandler>();
-        services.AddScoped<ProcessPresentValuesHandler>();
-        services.AddScoped<ProcessAggregateHoldingValuationsHandler>();
+
+        services.AddScoped<IPortfolioReportWriter, BlobPortfolioReportWriter>();
+        services.AddScoped<IPresentValueQuoteClient, SqlManagedInstancePresentValueQuoteClient>();
+        services.AddScoped<IHoldingsSnapshotImporter, SqlManagedInstanceHoldingsSnapshotImporter>();
+        services.AddScoped<IHolderHoldingTransactionsImporter, SqlManagedInstanceHolderHoldingTransactionsImporter>();
+
+        // Add this only if your valuation service constructor needs it:
+        services.AddScoped<IHolderHoldingsFlowSource, SqlManagedInstanceHolderHoldingsFlowSource>();
+
+        // Add this if you created the service:
+        services.AddScoped<HolderHoldingsPortfolioValuationService>();
+
         // Add Application Insights - RELEASE only
         // services.AddApplicationInsightsTelemetry();
     }).Build();

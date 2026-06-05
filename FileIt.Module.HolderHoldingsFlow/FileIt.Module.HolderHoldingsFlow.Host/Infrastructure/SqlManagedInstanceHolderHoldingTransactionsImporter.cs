@@ -1,21 +1,88 @@
 using System;
+using System.Data;
+using System.Linq;
+using FileIt.Infrastructure.Data;
 using FileIt.Module.HolderHoldingsFlow.App.Strategies;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 using FileIt.Module.HolderHoldingsFlow.Host.Data;
 
-namespace FileIt.Module.HolderHoldingsFlow.Host.Infrastructure
-{
+namespace FileIt.Module.HolderHoldingsFlow.Host.Infrastructure;
+
     public class SqlManagedInstanceHolderHoldingTransactionsImporter : IHolderHoldingTransactionsImporter
     {
         private readonly HolderHoldingsDbContext context;
+		const char qt = '\"';
+
         public SqlManagedInstanceHolderHoldingTransactionsImporter(HolderHoldingsDbContext context)
         {
             this.context = context;
         }
 
-        public Task ImportHolderHoldingTransactionsAsync(Stream file, CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
+		public Task ImportHolderHoldingTransactionsAsync(Stream file, CancellationToken ct)
+		{
+			return Task.Run(async () =>
+			{
+				long lineNumber = 0;
+				var txList = context.HolderHoldingTransactions.OrderByDescending(h => h.AsOfDate).Take(1).ToList();
+				var maxDate = txList.Count > 0 ? txList[0].AsOfDate : DateTime.Today;	
+
+				// Load manifest resource from assembly into string
+				string line = null;
+				string id = null;
+				string sql = null;
+				var dt = new DataTable();
+				HolderHoldingTransaction tx = null;
+				string[] jsonLines = null;
+
+				using (var reader = new StreamReader(file))
+				{
+					while (reader != null &&(line = reader.ReadLine()) != null)
+					{
+						lineNumber++;
+						if (string.IsNullOrWhiteSpace(line))
+							continue;
+
+						string key = (line + qt + qt + qt).Split(qt)[1];
+						string val = (line + qt + qt + qt).Split(qt)[3];
+
+						if (key.ToLower() == "holderid")
+						{
+							id = val;
+							txList.Clear();
+							tx = new HolderHoldingTransaction();
+							tx.HolderId = id;
+						}
+						else
+						{
+							if (string.IsNullOrEmpty(val) && line.Contains(":"))
+							{
+								val = line.Split(':').Last().Replace(",", "").Replace(qt + "", "").Trim();
+							}
+							tx.HydrateKeyValue(key, val);
+						}
+
+						if (line.Replace("\t", "").Replace(",", "").Trim().EndsWith("}"))
+						{
+                            if (tx.AsOfDate == DateTime.MinValue)
+                            {
+                                tx.HydrateKeyValue("AsOfDate", DateTime.Today.ToString());
+                            }
+
+                            // Use GetExisting extension to find duplicates matching all fields except *Id
+                            var existingTx = context.HolderHoldingTransactions.GetExisting(tx);
+
+							if (existingTx == null)
+							{
+								// Add new record
+								context.HolderHoldingTransactions.Add(tx);
+								Console.WriteLine($"Added new transaction for HolderId: {tx.HolderId}, AsOfDate: {tx.AsOfDate}");
+							}
+
+							// Save changes to database
+							await context.SaveChangesAsync(ct).ConfigureAwait(false);
+						}
+					}
+				}
+			}, ct);
+		}
     }
-}

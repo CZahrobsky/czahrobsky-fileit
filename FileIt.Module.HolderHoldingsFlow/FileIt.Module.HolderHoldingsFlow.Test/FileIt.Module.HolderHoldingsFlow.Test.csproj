@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    <ProjectReference Include="..\..\FileIt.Infrastructure\FileIt.Infrastructure\FileIt.Infrastructure.csproj" />
     <ProjectReference Include="..\FileIt.Module.HolderHoldingsFlow.App\FileIt.Module.HolderHoldingsFlow.App.csproj" />
     <ProjectReference Include="..\FileIt.Module.HolderHoldingsFlow.Integration\FileIt.Module.HolderHoldingsFlow.Integration.csproj" />
     <ProjectReference Include="..\FileIt.Module.HolderHoldingsFlow.Domain\FileIt.Module.HolderHoldingsFlow.Domain.csproj" />

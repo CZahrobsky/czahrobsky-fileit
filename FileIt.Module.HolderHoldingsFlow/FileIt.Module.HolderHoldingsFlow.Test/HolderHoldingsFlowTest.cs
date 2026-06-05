@@ -1,34 +1,12 @@
-using System;
 using System.Data;
-using System.Data.OleDb;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using FileIt.Infrastructure;
-using FileIt.Infrastructure.Extensions;
-using FileIt.Infrastructure.Logging;
-using FileIt.Infrastructure.Middleware;
 using FileIt.Module.HolderHoldingsFlow.App.Services;
-using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
-using FileIt.Module.HolderHoldingsFlow.Test;
 using FileIt.Module.HolderHoldingsFlow.Test.TestStrategies;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FileIt.Module.HolderHoldingsFlow.Test
-{
+namespace FileIt.Module.HolderHoldingsFlow.Test;
+
     [TestClass]
     public class HolderHoldingsFlowTest
     {
-        static string connectionString = "";
         static char qt = '\"';
         TestSource src = null;
 
@@ -211,8 +189,5 @@ namespace FileIt.Module.HolderHoldingsFlow.Test
                 }
             }
         }
-
-
-
     }
-}
+

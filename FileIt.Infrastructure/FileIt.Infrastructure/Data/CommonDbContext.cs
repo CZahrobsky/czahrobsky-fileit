@@ -5,8 +5,8 @@ using FileIt.Domain.Entities.DeadLetter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FileIt.Infrastructure.Data
-{
+namespace FileIt.Infrastructure.Data;
+
     public class CommonDbContext : DbContext
     {
         public CommonDbContext(DbContextOptions options)
@@ -151,4 +151,3 @@ namespace FileIt.Infrastructure.Data
             entity.Property(e => e.MessageBody).IsRequired();
         }
     }
-}

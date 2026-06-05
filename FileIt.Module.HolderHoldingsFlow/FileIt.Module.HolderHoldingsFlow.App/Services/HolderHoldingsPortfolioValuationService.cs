@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using FileIt.Module.HolderHoldingsFlow.App.Strategies;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
+using FileIt.Module.HolderHoldingsFlow.Domain.Interfaces;
 
-namespace FileIt.Module.HolderHoldingsFlow.App.Services
-{
+namespace FileIt.Module.HolderHoldingsFlow.App.Services;
+
     public sealed class HolderHoldingsPortfolioValuationService
     {
         private readonly IHoldingsSnapshotImporter _snapshotImporter;
         private readonly IHolderHoldingTransactionsImporter _deltaImporter;
-        private readonly IHoldingsQueryStrategy _holdingsQuery;
+        private readonly IHolderHoldingsFlowSource _holdingsQuery;
         private readonly IPresentValueQuoteClient _quoteClient;
         private readonly IPortfolioReportWriter _writer;
 
@@ -27,7 +28,7 @@ namespace FileIt.Module.HolderHoldingsFlow.App.Services
             else
                 throw new InvalidOperationException($"Unknown holdings file type: {fileName}");
 
-            var holdings = await _holdingsQuery.GetCurrentHoldingsAsync(asOfDate, ct);
+            var holdings = await _holdingsQuery.GetHoldingsAsync(asOfDate, ct);
 
             var symbols = holdings
                 .Select(x => x.CusipOrSymbol)
@@ -61,4 +62,3 @@ namespace FileIt.Module.HolderHoldingsFlow.App.Services
             await _writer.WriteAsync($"PortfolioValue_{asOfDate:yyyyMMdd}.tsv", rows, ct);
         }
     }
-}

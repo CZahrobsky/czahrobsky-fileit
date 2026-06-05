@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using FileIt.Domain.Interfaces;
 
-namespace FileIt.Domain.Entities
-{
+namespace FileIt.Domain.Entities;
+
     public class SimpleRequestLog : IAuditable
     {
         public int Id { get; set; }
@@ -24,4 +24,3 @@ namespace FileIt.Domain.Entities
             return JsonSerializer.Serialize(this);
         }
     }
-}

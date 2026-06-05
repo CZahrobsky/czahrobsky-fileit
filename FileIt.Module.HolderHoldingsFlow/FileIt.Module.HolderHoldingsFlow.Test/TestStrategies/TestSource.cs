@@ -1,20 +1,14 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
+using FileIt.Infrastructure.Data;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 using FileIt.Module.HolderHoldingsFlow.Domain.Interfaces;
-using static Microsoft.Azure.Amqp.Serialization.SerializableType;
 
-namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
-{
+namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies;
+
     public class TestSource : IHolderHoldingsFlowSource
     {        
         static string mdbFile = "";
@@ -36,23 +30,95 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
 
         public Task<IReadOnlyList<Holder>> GetHoldersAsync(DateTime asOfDate, CancellationToken ct = default)
         {
-            return ReadJsonAsync<Holder>("Holders", ct).ContinueWith(t => (IReadOnlyList<Holder>)t.Result.AsReadOnly());
+            return Task.Run(() =>
+            {
+                var db = GetRows("SELECT * FROM HHF_Holders WHERE AsOfDate = #" + asOfDate.ToString("yyyyMMdd") + "#");
+                var list = new List<Holder>();
+                foreach (DataRow row in db.Rows)
+                {
+                    // Check for cancellation - exit gracefully without throwing
+                    if (ct.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"GetHoldersAsync: Cancellation requested. Returning {list.Count} values retrieved so far.");
+                        break;
+                    }
+                    list.Add(row.Hydrate<Holder>());
+                }
+                return list;
+            }, ct).ContinueWith(t => 
+            {
+                // Handle task cancellation gracefully
+                if (t.IsCanceled)
+                {
+                    Console.WriteLine("GetHoldersAsync: Task was cancelled. Returning empty list.");
+                    return (IReadOnlyList<Holder>)new List<Holder>().AsReadOnly();
+                }
+                return (IReadOnlyList<Holder>)t.Result.AsReadOnly();
+            }, ct);
         }
 
         public Task<IReadOnlyList<Holding>> GetHoldingsAsync(DateTime asOfDate, CancellationToken ct = default)
         {
-            return ReadJsonAsync<Holding>("Holdings", ct).ContinueWith(t => (IReadOnlyList<Holding>)t.Result.AsReadOnly());
-        }
-
-        public Task<IReadOnlyList<PresentValue>> GetPresentValuesAsync(DateTime asOfDate, IList<string> CusipOrSymbolList, CancellationToken ct = default)
-        {
-            var filteredListTask = ReadJsonAsync<PresentValue>("PresentValues", ct).ContinueWith(t =>
+            return Task.Run(() =>
             {
-                var list = t.Result;
-                if (CusipOrSymbolList == null || CusipOrSymbolList.Count == 0) return list;
-                return list.Where(pv => CusipOrSymbolList.Contains(pv.CusipOrSymbol, StringComparer.OrdinalIgnoreCase)).ToList();
-            });
-            return filteredListTask.ContinueWith(t => (IReadOnlyList<PresentValue>)t.Result.AsReadOnly());
+                var db = GetRows("SELECT * FROM HHF_Holdings WHERE AsOfDate = #" + asOfDate.ToString("yyyyMMdd") + "#");
+                var list = new List<Holding>();
+                foreach (DataRow row in db.Rows)
+                {
+                    // Check for cancellation - exit gracefully without throwing
+                    if (ct.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"GetHoldingsAsync: Cancellation requested. Returning {list.Count} values retrieved so far.");
+                        break;
+                    }
+                    list.Add(row.Hydrate<Holding>());
+                }
+                return list;
+            }, ct).ContinueWith(t => 
+            {
+                // Handle task cancellation gracefully
+                if (t.IsCanceled)
+                {
+                    Console.WriteLine("GetHoldingsAsync: Task was cancelled. Returning empty list.");
+                    return (IReadOnlyList<Holding>)new List<Holding>().AsReadOnly();
+                }
+                return (IReadOnlyList<Holding>)t.Result.AsReadOnly();
+            }, ct);
+        }        
+
+        public Task<IReadOnlyList<PresentValue>> GetPresentValuesAsync(DateTime asOfDate, IList<string> CusipOrSymbolList, SeekOrigin scope, CancellationToken ct = default)
+        {
+            return Task.Run(() =>
+            {
+                var symbols = string.Join(",", CusipOrSymbolList.Select(s => $"'{s.Replace("'", "''")}'"));
+
+                var sql =
+                    $"SELECT * FROM HHF_PresentValue " +
+                    $"WHERE AsOfDate <= #{asOfDate:yyyyMMdd}# " +
+                    $"AND CusipOrSymbol IN ({symbols})";
+                var db = GetRows(sql);
+                var list = new List<PresentValue>();
+                foreach (DataRow row in db.Rows)
+                {
+                    // Check for cancellation - exit gracefully without throwing
+                    if (ct.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"GetPresentValuesAsync: Cancellation requested. Returning {list.Count} values retrieved so far.");
+                        break;
+                    }
+                    list.Add(row.Hydrate<PresentValue>());
+                }
+                return list;
+            }, ct).ContinueWith(t =>
+            {
+                // Handle task cancellation gracefully
+                if (t.IsCanceled)
+                {
+                    Console.WriteLine("GetPresentValuesAsync: Task was cancelled. Returning empty list.");
+                    return (IReadOnlyList<PresentValue>)new List<PresentValue>().AsReadOnly();
+                }
+                return (IReadOnlyList<PresentValue>)t.Result.AsReadOnly();
+            }, ct);
         }
 
         private async Task<List<T>> ReadJsonAsync<T>(string dataSource, CancellationToken ct)
@@ -95,73 +161,18 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
         {
             return Task.Run(() =>
             {
-                var asm = typeof(TestSource).Assembly;
+                var db = GetRows("SELECT * FROM HHF_Transactions WHERE AsOfDate = #" + asOfDate.ToString("yyyyMMdd") + "#");
                 var list = new List<HolderHoldingTransaction>();
-
-                // First, try to find TestData folder from assembly location
-                string path = Path.GetDirectoryName(asm.Location);
-                if (string.IsNullOrEmpty(path))
-                    return list;
-
-                // Search for TestData folder in current and parent directories
-                var found = Directory.GetDirectories(path, "TestData");
-                while (path.Length > 0 && found.Length == 0)
+                foreach (DataRow row in db.Rows)
                 {
-                    // Check parent folder
-                    var parentPath = Directory.GetParent(path)?.FullName;
-                    if (string.IsNullOrEmpty(parentPath))
-                        break;
-
-                    path = parentPath;
-                    found = Directory.GetDirectories(path, "TestData");
-
-                    if (found.Length > 0)
-                    {
-                        path = found[0];
-                        break;
-                    }
-                }
-
-                // Look for transaction file matching the asOfDate
-                if (Directory.Exists(path))
-                {
-                    var datePattern = asOfDate.ToString("yyyyMMdd");
-                    var transactionFiles = Directory.GetFiles(path, "*Transaction*.json")
-                        .Where(f => f.Contains(datePattern))
-                        .ToArray();
-
-                    if (transactionFiles.Length > 0)
-                    {
-                        try
-                        {
-                            using (var fs = new StreamReader(transactionFiles[0]))
-                            {
-                                var json = fs.ReadToEnd();
-
-                                if (!string.IsNullOrWhiteSpace(json))
-                                {
-                                    var items = JsonSerializer.Deserialize<List<HolderHoldingTransaction>>(json);
-                                    if (items != null)
-                                    {
-                                        list = items;
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Log or handle deserialization errors for test data
-                            Console.WriteLine($"Error deserializing transaction file: {ex.Message}");
-                        }
-                    }
-                }
-
+                    list.Add(row.Hydrate<HolderHoldingTransaction>());
+                }                
                 return list;
             }).ContinueWith(t => (IReadOnlyList<HolderHoldingTransaction>)t.Result.AsReadOnly());
         }
 
-
-        internal DataTable GetRows(string sql)
+        #region Test-only Active Data Object Helpers
+        public DataTable GetRows(string sql)
         {
             DataTable dt = new DataTable();
             using (var connection = new OleDbConnection(ConnectionString))
@@ -186,7 +197,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
             return dt;
         }
 
-        internal void SetRowKeyVal(DataRow row, string key, string val)
+        public void SetRowKeyVal(DataRow row, string key, string val)
         {
             if (row != null && row.Table.Columns.Contains(key))
             {
@@ -211,7 +222,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
                 }
             }
         }
-        internal int UpdateRow(DataRow row, string sql)
+        public int UpdateRow(DataRow row, string sql)
         {
             // Update or insert the Holder
             int result = 0;
@@ -261,6 +272,7 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
 
             return result;
         }
+        #endregion
 
         public IList<string> UnzipResourceToTemp(string resourceName, string tempSubFolder = "")
         {
@@ -312,6 +324,4 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies
             }
             return found;
         }
-
     }
-}

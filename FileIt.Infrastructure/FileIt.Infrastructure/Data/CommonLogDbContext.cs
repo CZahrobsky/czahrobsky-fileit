@@ -1,8 +1,8 @@
 using FileIt.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileIt.Infrastructure.Data
-{
+namespace FileIt.Infrastructure.Data;
+
     public class CommonLogDbContext : DbContext
     {
         private readonly string _connectionString;
@@ -31,4 +31,3 @@ namespace FileIt.Infrastructure.Data
                 .ValueGeneratedOnAdd();
         }
     }
-}

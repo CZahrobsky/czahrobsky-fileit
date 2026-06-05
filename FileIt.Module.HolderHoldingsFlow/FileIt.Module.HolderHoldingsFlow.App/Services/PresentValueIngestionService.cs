@@ -1,10 +1,11 @@
+using System.IO;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 
 namespace FileIt.Module.HolderHoldingsFlow.App.Services;
 
 public class PresentValueIngestionService : BaseHolderHoldingsFlow
 {
-    public async Task<List<PresentValue>> LoadPresentValuesAsync(List<string> cusipOrSymbolList)
+    public async Task<List<PresentValue>> LoadPresentValuesAsync(List<string> cusipOrSymbolList, SeekOrigin scope = SeekOrigin.Current)
     {
         // Load present values from your source / API
         var presentValues = new List<PresentValue>();
@@ -14,7 +15,7 @@ public class PresentValueIngestionService : BaseHolderHoldingsFlow
             if (Source != null)
             {
                 var asOfDate = DateTime.Today;
-                var pvList = await BaseHolderHoldingsFlow.Source.GetPresentValuesAsync(asOfDate, cusipOrSymbolList);
+                var pvList = await Source.GetPresentValuesAsync(asOfDate, cusipOrSymbolList, scope);
                 presentValues.AddRange(pvList);
             }
         }

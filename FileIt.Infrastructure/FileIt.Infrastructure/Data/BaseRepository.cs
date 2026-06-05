@@ -3,8 +3,8 @@ using FileIt.Domain.Entities;
 using FileIt.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileIt.Infrastructure.Data
-{
+namespace FileIt.Infrastructure.Data;
+
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class, IAuditable
     {
@@ -93,4 +93,3 @@ namespace FileIt.Infrastructure.Data
             return existingEntity;
         }
     }
-}

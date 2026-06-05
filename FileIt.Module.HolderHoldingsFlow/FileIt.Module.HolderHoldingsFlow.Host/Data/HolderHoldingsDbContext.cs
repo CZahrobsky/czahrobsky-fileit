@@ -2,8 +2,8 @@ using FileIt.Infrastructure.Data;
 using FileIt.Module.HolderHoldingsFlow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileIt.Module.HolderHoldingsFlow.Host.Data
-{
+namespace FileIt.Module.HolderHoldingsFlow.Host.Data;
+
     public class HolderHoldingsDbContext : CommonDbContext
     {
         public HolderHoldingsDbContext(DbContextOptions options)
@@ -48,4 +48,3 @@ namespace FileIt.Module.HolderHoldingsFlow.Host.Data
         }
 
     }
-}

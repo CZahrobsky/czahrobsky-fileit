@@ -5,8 +5,7 @@ using FileIt.Domain.Interfaces;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 
-namespace FileIt.Infrastructure.Tools
-{
+namespace FileIt.Infrastructure.Tools;
     public class BusTool : ITalkToApi
     {
         private readonly ILogger<BusTool> _logger;
@@ -75,4 +74,3 @@ namespace FileIt.Infrastructure.Tools
             );
         }
     }
-}

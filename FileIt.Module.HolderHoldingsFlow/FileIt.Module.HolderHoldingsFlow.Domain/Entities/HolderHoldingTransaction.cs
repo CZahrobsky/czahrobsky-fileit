@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities
-{
+namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities;
+
     public class HolderHoldingTransaction
     {
         public long Id { get; set; }
@@ -15,4 +15,3 @@ namespace FileIt.Module.HolderHoldingsFlow.Domain.Entities
         public DateTime AsOfDate { get; set; }
 
     }
-}
