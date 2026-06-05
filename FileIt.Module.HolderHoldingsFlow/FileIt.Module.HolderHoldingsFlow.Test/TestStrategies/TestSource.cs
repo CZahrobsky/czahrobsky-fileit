@@ -23,12 +23,55 @@ namespace FileIt.Module.HolderHoldingsFlow.Test.TestStrategies;
             ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={mdbFile};";
         }
 
-        public Task<IReadOnlyList<HolderHoldingValuation>> CalculateValuations(DateTime asOfDate, CancellationToken ct = default)
+    public async Task<IReadOnlyList<HolderHoldingValuation>> CalculateValuations(
+        DateTime asOfDate,
+        CancellationToken ct = default)
+    {
+        var holdings = await GetHoldingsAsync(asOfDate, ct);
+
+        var symbols = holdings
+            .Select(h => h.CusipOrSymbol)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        var presentValues = await GetPresentValuesAsync(
+            asOfDate,
+            symbols,
+            SeekOrigin.Current,
+            ct);
+
+        var quoteLookup = presentValues
+            .GroupBy(p => p.CusipOrSymbol, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                g => g.Key,
+                g => g.OrderByDescending(p => p.AsOfDate).First(),
+                StringComparer.OrdinalIgnoreCase);
+
+        var results = new List<HolderHoldingValuation>();
+
+        foreach (var holding in holdings)
         {
-            throw new NotImplementedException();
+            ct.ThrowIfCancellationRequested();
+
+            if (!quoteLookup.TryGetValue(holding.CusipOrSymbol, out var quote))
+                continue;
+
+            results.Add(new HolderHoldingValuation
+            {
+                HolderId = holding.HolderId,
+                CusipOrSymbol = holding.CusipOrSymbol,
+                Quantity = holding.Quantity,
+                UnitPrice = quote.UnitPrice,
+                TotalValue = holding.Quantity * quote.UnitPrice,
+                ValuationDate = asOfDate
+            });
         }
 
-        public Task<IReadOnlyList<Holder>> GetHoldersAsync(DateTime asOfDate, CancellationToken ct = default)
+        return results.AsReadOnly();
+    }
+
+    public Task<IReadOnlyList<Holder>> GetHoldersAsync(DateTime asOfDate, CancellationToken ct = default)
         {
             return Task.Run(() =>
             {
